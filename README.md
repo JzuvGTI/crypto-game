@@ -2,7 +2,7 @@
 
 ![Crypto Game Banner](https://cdn.pixabay.com/photo/2020/06/10/09/31/bitcoin-5281986_960_720.jpg)
 
-**Website Demo:** [Link Demo Website](https://jzuvgti.github.io/game-saham/)
+**Website Demo:** [Link Demo Website](https://jzuvgti.github.io/crypto-game/)
 
 ### **Feature V1:**
 - **Design Card like ATM**
