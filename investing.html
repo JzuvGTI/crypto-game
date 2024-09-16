@@ -32,7 +32,7 @@
     </div>
 
     <div id="shares" class="py-6">
-        <!-- Stock Portfolio Card -->
+        <!-- Portfolio -->
         <div class="p-4">
             <div class="bg-blue-500 text-white rounded-t-lg p-4">
                 <div class="flex items-center">
@@ -42,36 +42,40 @@
             </div>
             <div class="bg-white shadow-md rounded-b-lg p-4">
                 <p class="text-2xl font-bold">$ 0,00</p>
-                <p class="text-green-500">+ $0.00 (0.00%) for all time</p>
+                <p class="text-green-500">+ $0.00 (0.00%) <a href="myshares.html" class="text-blue-500">for all time</a></p>
                 <p class="mt-4 text-gray-500">Estimated yield per hour</p>
                 <p class="text-2xl font-bold">$ 0,00</p>
             </div>
         </div>
 
-        <!-- Stock Market Button -->
+        <!-- Market Button -->
         <div class="p-4">
-            <div class="bg-blue-500 text-white shadow-md rounded-lg p-4 flex justify-between items-center">
-                <div class="flex items-center">
-                    <i class="fas fa-chart-line text-2xl"></i>
-                    <span class="ml-2 font-semibold">Stock market</span>
+            <a href="stockmarket.html">
+                <div class="bg-blue-500 text-white shadow-md rounded-lg p-4 flex justify-between items-center">
+                    <div class="flex items-center">
+                        <i class="fas fa-chart-line text-2xl"></i>
+                        <span class="ml-2 font-semibold">Stock market</span>
+                    </div>
+                    <i class="fas fa-chevron-right"></i>
                 </div>
-                <i class="fas fa-chevron-right"></i>
-            </div>
+            </a>
         </div>
 
         <!-- My Shares Button -->
         <div class="p-4">
-            <div class="bg-gray-200 text-gray-500 shadow-md rounded-lg p-4 flex justify-between items-center">
-                <div class="flex items-center">
-                    <i class="fas fa-briefcase text-2xl"></i>
-                    <span class="ml-2 font-semibold">My shares</span>
+            <a href="myshares.html">
+                <div class="bg-gray-200 text-gray-500 shadow-md rounded-lg p-4 flex justify-between items-center">
+                    <div class="flex items-center">
+                        <i class="fas fa-briefcase text-2xl"></i>
+                        <span class="ml-2 font-semibold">My shares</span>
+                    </div>
+                    <i class="fas fa-chevron-right"></i>
                 </div>
-                <i class="fas fa-chevron-right"></i>
-            </div>
+            </a>
         </div>
     </div>
 
-    <!-- Real Estate Content -->
+    <!-- Real Estate -->
     <div id="realEstate" class="py-6 hidden">
         <!-- Add real estate content here -->
         <div class="p-4">
@@ -80,6 +84,7 @@
         
     </div>
 
+    <!-- Crypto -->
     <div id="crypto" class="py-6 hidden">
         <div class="p-4">
             <div class="bg-white shadow-md rounded-lg p-4">
@@ -106,6 +111,7 @@
                     </div>
                     <p class="text-green-500">$3.80 (+25.16%)</p>
                 </div>
+                
                 <div class="flex justify-between py-2">
                     <div class="flex items-center space-x-2">
                         <img src="https://cryptologos.cc/logos/ethereum-eth-logo.png" alt="Ethereum" class="w-6 h-6">
@@ -116,9 +122,10 @@
                     </div>
                     <p class="text-red-500">$719.3k (-0.99%)</p>
                 </div>
+                
                 <div class="flex justify-between py-2">
                     <div class="flex items-center space-x-2">
-                        <img src="https://cryptologos.cc/logos/solana-sol-logo.png" alt="Ethereum" class="w-6 h-6">
+                        <img src="https://cryptologos.cc/logos/solana-sol-logo.png" alt="Solana" class="w-6 h-6">
                         <div>
                             <p>Solana</p>
                             <p class="text-sm text-gray-400">453.42 SOL</p>
@@ -126,13 +133,79 @@
                     </div>
                     <p class="text-red-500">$10.3k (-0.99%)</p>
                 </div>
-                <!-- Add more coins similarly -->
+                
+                <div class="flex justify-between py-2">
+                    <div class="flex items-center space-x-2">
+                        <img src="https://cryptologos.cc/logos/binance-coin-bnb-logo.png" alt="Binance Coin" class="w-6 h-6">
+                        <div>
+                            <p>Binance Coin</p>
+                            <p class="text-sm text-gray-400">10.75 BNB</p>
+                        </div>
+                    </div>
+                    <p class="text-green-500">$3.8k (+12.47%)</p>
+                </div>
+                
+                <div class="flex justify-between py-2">
+                    <div class="flex items-center space-x-2">
+                        <img src="https://cryptologos.cc/logos/cardano-ada-logo.png" alt="Cardano" class="w-6 h-6">
+                        <div>
+                            <p>Cardano</p>
+                            <p class="text-sm text-gray-400">1000 ADA</p>
+                        </div>
+                    </div>
+                    <p class="text-red-500">$400 (-2.45%)</p>
+                </div>
+                
+                <div class="flex justify-between py-2">
+                    <div class="flex items-center space-x-2">
+                        <img src="https://cryptologos.cc/logos/book-of-meme-bome-logo.png" alt="Bome" class="w-6 h-6">
+                        <div>
+                            <p>Book Of Meme</p>
+                            <p class="text-sm text-gray-400">500 BOME</p>
+                        </div>
+                    </div>
+                    <p class="text-green-500">$550 (+5.12%)</p>
+                </div>
+                
+                <div class="flex justify-between py-2">
+                    <div class="flex items-center space-x-2">
+                        <img src="https://cryptologos.cc/logos/shiba-inu-shib-logo.png" alt="Shiba" class="w-6 h-6">
+                        <div>
+                            <p>Shiba</p>
+                            <p class="text-sm text-gray-400">300 SHIB</p>
+                        </div>
+                    </div>
+                    <p class="text-green-500">$1.5k (+8.32%)</p>
+                </div>
+                
+                <div class="flex justify-between py-2">
+                    <div class="flex items-center space-x-2">
+                        <img src="https://cryptologos.cc/logos/chainlink-link-logo.png" alt="Chainlink" class="w-6 h-6">
+                        <div>
+                            <p>Chainlink</p>
+                            <p class="text-sm text-gray-400">100 LINK</p>
+                        </div>
+                    </div>
+                    <p class="text-red-500">$350 (-1.92%)</p>
+                </div>
+                
+                <div class="flex justify-between py-2">
+                    <div class="flex items-center space-x-2">
+                        <img src="https://cryptologos.cc/logos/litecoin-ltc-logo.png" alt="Litecoin" class="w-6 h-6">
+                        <div>
+                            <p>Litecoin</p>
+                            <p class="text-sm text-gray-400">50 LTC</p>
+                        </div>
+                    </div>
+                    <p class="text-green-500">$4k (+3.58%)</p>
+                </div>
+                
             </div>
         </div>
     </div>
 
-    <!-- Sticky Footer -->
-    <footer class="bg-white shadow-inner w-full fixed bottom-0">
+    <!-- Footer Button -->
+    <footer class="mt-5 bg-white shadow-inner w-full fixed bottom-0">
         <div class="flex justify-around py-2 border-t">
             <!-- Investing -->
             <a href="investing.html" class="flex flex-col items-center text-blue-600 hover:text-blue-500">
