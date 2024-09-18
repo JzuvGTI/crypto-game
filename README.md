@@ -13,7 +13,7 @@
 
 ### **Feature V1.1:**
 - **Add Footer Button**
-- **Add Investing tab**
+- **Add Investinsg tab**
 - **Add many Crypto coins**
 - **Design Moving Tab**
 
