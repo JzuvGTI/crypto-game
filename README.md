@@ -4,7 +4,7 @@
 ![Crypto Game Banner](https://cdn.pixabay.com/photo/2020/06/10/09/31/bitcoin-5281986_960_720.jpg)
 
 **Website Demo:** [Link Demo Website](https://jzuvgti.github.io/crypto-game/)
-**Note:**  This is a website template for a Crypto Game. It is a design mockup and will not be saved into a database.
+
 ---
 
 ## **Features**
@@ -42,5 +42,6 @@
 
 ---
 
+**Note:**  This is a website template for a Crypto Game. It is a design mockup and will not be saved into a database.
 
-
+---
