@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+</head>
+<style>
+    .click-area {
+        cursor: pointer;
+        color: gray;
+        text-align: center;
+        margin-top: 40px;
+        position: relative;
+    }
+
+    /* Animation for hand icon */
+    .click-area .fa-hand-pointer {
+        transition: transform 0.2s ease;
+    }
+
+    /* Animation when click happens */
+    .click-area.clicked .fa-hand-pointer {
+        transform: scale(1.3);
+    }
+
+    /* Reset after the animation */
+    .click-area.clicked .fa-hand-pointer.active {
+        transform: scale(1);
+    }
+
+    /* Mobile-Only and Rejection Message */
+    @media (min-width: 1024px) {
+        .mobile-only {
+            display: none;
+        }
+
+        .desktop-only {
+            display: block;
+            background-color: #F87171;
+            color: white;
+            font-size: 1.5rem;
+            text-align: center;
+            padding: 60px;
+            border-radius: 15px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+            margin: 100px auto;
+            max-width: 600px;
+        }
+    }
+
+    @media (max-width: 1023px) {
+        .mobile-only {
+            display: block;
+        }
+
+        .desktop-only {
+            display: none;
+        }
+    }
+</style>
+<body class="bg-gray-100">
+
+    <div class="bg-blue-600 py-4 px-6 flex items-center justify-between shadow-lg rounded-b-lg">
+        <div class="flex items-center space-x-4">
+            <!-- Profile Icon -->
+            <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md">
+                <i class="fas fa-user text-blue-600 text-xl"></i>
+            </div>
+        </div>
+        <div class="text-white font-semibold text-[20px]">Dashboard</div>
+    </div>
+
+
+    <div class="p-6">
+        <div class="bg-white rounded-lg p-6 shadow-md relative">
+            <div class="flex justify-between items-center">
+                <div>
+                    <p class="text-gray-500">Total Investasi<i class="fas fa-eye cursor-pointer ml-1 text-sm" id="toggle-eye"></i></p>
+                    <!-- Saldo yang bisa di-hide/show -->
+                    <p id="balance-amount" class="text-[20px] font-bold">$0.00</p>
+                    <p class="text-green-500 text-[13px]">Return +Rp0 (+0%)</p>
+                </div>
+            </div>
+            <div class="flex justify-between items-center mt-4 space-x-2">
+                <!-- Button with icons and captions -->
+                <div class="flex flex-col items-center">
+                    <a href="#" class="flex items-center justify-center w-8 h-8 border-2 border-blue-600 text-blue-600 rounded-full hover:bg-blue-100 transition duration-300">
+                        <i class="fas fa-paper-plane text-lg"></i>
+                    </a>
+                    <p class="text-sm text-gray-700 mt-1">Kirim</p>
+                </div>
+                <div class="flex flex-col items-center">
+                    <a href="#" class="flex items-center justify-center w-8 h-8 border-2 border-blue-600 text-blue-600 rounded-full hover:bg-blue-100 transition duration-300">
+                        <i class="fas fa-plus-circle text-lg"></i>
+                    </a>
+                    <p class="text-sm text-gray-700 mt-1">Deposit</p>
+                </div>
+                <div class="flex flex-col items-center">
+                    <a href="#" class="flex items-center justify-center w-8 h-8 border-2 border-blue-600 text-blue-600 rounded-full hover:bg-blue-100 transition duration-300">
+                        <i class="fas fa-history text-lg"></i>
+                    </a>
+                    <p class="text-sm text-gray-700 mt-1">History</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="p-6">
+        <!-- Click Area -->
+        <div class="click-area mb-5" id="click-area">
+            <i class="fas fa-hand-pointer fa-3x"></i>
+            <div>Click in this area to earn money</div>
+        </div>
+    </div>
+
+    
+
+    <!-- Watchlist Section -->
+    <div class="p-6">
+        <div class="flex justify-between items-center mb-4 mt-10">
+            <p class="text-xl font-bold">Watchlist</p>
+            <button class="text-blue-600 font-bold text-sm">Watchlist Saya</button>
+        </div>
+
+        <!-- Watchlist Table -->
+        <div class="bg-white rounded-lg p-4 shadow-md">
+            <table class="w-full">
+                <thead>
+                    <tr class="text-left text-gray-500 border-b">
+                        <th class="p-2">Kode</th>
+                        <th class="p-2">Performa Hari Ini</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Bitcoin Row -->
+                    <tr class="border-b">
+                        <td class="p-2 flex items-center">
+                            <i class="fab fa-bitcoin text-2xl text-orange-500 mr-2"></i>
+                            <p>Bitcoin (BTC)</p>
+                        </td>
+                        <td class="p-2">
+                            <p class="font-bold">Rp 929.325.885</p>
+                            <p class="text-green-500">+38.187.330 (+4,28%)</p>
+                        </td>
+                    </tr>
+                    <!-- Ethereum Row -->
+                    <tr class="border-b">
+                        <td class="p-2 flex items-center">
+                            <i class="fab fa-ethereum text-2xl text-gray-500 mr-2"></i>
+                            <p>Ethereum (ETH)</p>
+                        </td>
+                        <td class="p-2">
+                            <p class="font-bold">Rp 35.845.438</p>
+                            <p class="text-green-500">+827.104,2 (+2,36%)</p>
+                        </td>
+                    </tr>
+                    <!-- Solana Row -->
+                    <tr>
+                        <td class="p-2 flex items-center">
+                            <i class="fas fa-coins text-2xl text-blue-500 mr-2"></i>
+                            <p>Solana (SOL/IDR)</p>
+                        </td>
+                        <td class="p-2">
+                            <p class="font-bold">Rp 2.024.880</p>
+                            <p class="text-green-500">+8.486,25 (+0,42%)</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div> 
+
+    <!-- Sticky Footer -->
+    <footer class="bg-white shadow-inner w-full fixed bottom-0">
+        <div class="flex justify-around py-2 border-t">
+            <!-- Investing -->
+            <a href="investing.html" class="flex flex-col items-center text-gray-600 hover:text-blue-500">
+                <i class="fas fa-chart-line text-xl"></i>
+                <span class="text-xs">Investing</span>
+            </a>
+            <!-- Business -->
+            <a href="#business" class="flex flex-col items-center text-gray-600 hover:text-blue-500">
+                <i class="fas fa-city text-xl"></i>
+                <span class="text-xs">Business</span>
+            </a>
+            <!-- Earnings -->
+            <a href="dashboard.html" class="flex flex-col items-center text-blue-600 hover:text-blue-500">
+                <i class="fas fa-dollar-sign text-xl"></i>
+                <span class="text-xs">Earnings</span>
+            </a>
+            <!-- Items -->
+            <a href="#items" class="flex flex-col items-center text-gray-600 hover:text-blue-500">
+                <i class="fas fa-th-large text-xl"></i>
+                <span class="text-xs">Items</span>
+            </a>
+            <!-- Profile -->
+            <a href="#profile" class="flex flex-col items-center text-gray-600 hover:text-blue-500">
+                <i class="fas fa-user text-xl"></i>
+                <span class="text-xs">Profile</span>
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        // Variables
+        let balance = 0.00;
+        const balanceAmountElement = document.getElementById('balance-amount');
+        const toggleEyeElement = document.getElementById('toggle-eye');
+        const clickAreaElement = document.getElementById('click-area');
+        let isBalanceVisible = true;
+        let isClickable = true; // Status untuk melacak apakah elemen dapat diklik
+
+        // Function to format number with comma and dot
+        function formatBalance(balance) {
+            return balance.toLocaleString('de-DE', { style: 'currency', currency: 'USD' }).replace('.', ',').replace(',', '.');
+        }
+
+        // Function to toggle balance visibility
+        toggleEyeElement.addEventListener('click', function () {
+            isBalanceVisible = !isBalanceVisible;
+            if (isBalanceVisible) {
+                balanceAmountElement.innerText = formatBalance(balance);
+                toggleEyeElement.classList.replace('fa-eye-slash', 'fa-eye');
+            } else {
+                balanceAmountElement.innerText = '****';
+                toggleEyeElement.classList.replace('fa-eye', 'fa-eye-slash');
+            }
+        });
+
+        // Function to increment balance and trigger animation
+        clickAreaElement.addEventListener('click', function () {
+            if (isClickable) {
+                // Set status tidak dapat diklik
+                isClickable = false;
+
+                // Increment balance
+                balance += 250;
+                balanceAmountElement.innerText = formatBalance(balance);
+
+                // Add 'clicked' class for animation
+                clickAreaElement.classList.add('clicked');
+
+                // Reset the animation after 200ms
+                setTimeout(function () {
+                    clickAreaElement.classList.remove('clicked');
+                }, 200);
+
+                // Aktifkan kembali klik setelah delay tertentu (misalnya, 500ms)
+                setTimeout(function () {
+                    isClickable = true;
+                }, 200);
+            }
+        });
+    </script>
+</body>
+</html>
