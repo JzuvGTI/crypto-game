@@ -31,6 +31,7 @@
 - **Enhanced Dashboard Design**
 - **Added Pin Auth**
 - **Button Send, Deposit and History**
+- **Profile and Portfolio**
 
 ---
 
