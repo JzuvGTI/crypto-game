@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buying Stocks</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .input-underline {
+            border: none;
+            border-bottom: 2px solid #1E3A8A;
+            /* Biru tua */
+            padding: 0.5rem 0;
+            width: 100%;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .input-underline:focus {
+            outline: none;
+            border-bottom-color: #3B82F6;
+            /* Warna fokus biru */
+        }
+    </style>
+</head>
+
+<body class="bg-white">
+
+    <!-- Top Bar -->
+    <div class="flex items-center justify-between p-4">
+        <!-- Back Button -->
+        <a href="stockmarket.html">
+            <i class="fas fa-arrow-left text-gray-700 text-xl"></i>
+        </a>
+        <!-- Status Icon -->
+        <div class="bg-green-500 rounded-full h-6 w-12 flex items-center justify-center">
+            <i class="fas fa-check text-white"></i>
+        </div>
+    </div>
+
+    <!-- Title Section -->
+    <div class="px-4">
+        <h1 class="text-2xl font-semibold">Buying stocks</h1>
+    </div>
+
+    <!-- Balance Section -->
+    <div class="px-4 py-2 mt-2">
+        <div class="flex justify-between items-center">
+            <div class="text-lg font-medium text-gray-500">Balance:</div>
+            <div class="text-2xl font-bold text-gray-900">$ 8.583.304,02</div>
+        </div>
+    </div>
+
+    <!-- Stock Information Section -->
+    <div class="p-4 bg-gray-50 mt-4 rounded-lg">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <!-- Stock Logo -->
+                <img src="https://via.placeholder.com/40" alt="Stock Logo" class="w-10 h-10 rounded-full">
+                <!-- Stock Info -->
+                <div>
+                    <div class="font-bold text-lg">Mykrosofft</div>
+                    <div class="text-sm text-gray-500">Available</div>
+                </div>
+            </div>
+            <!-- Stock Price Info -->
+            <div class="text-right">
+                <div class="text-xl font-bold">$ 290,18</div>
+                <div class="text-sm text-green-500 font-medium">+ $1,57 (0,55%)</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quantity Input Section -->
+    <div class="p-4 mt-4">
+        <label class="block text-lg font-semibold mb-2 text-gray-700">Quantity:</label>
+        <div class="flex items-center space-x-4">
+            <input type="number" value="1" class="input-underline">
+            <button class="bg-blue-100 text-blue-600 font-bold py-1 px-3 rounded-md">Max</button>
+        </div>
+        <div class="text-sm text-gray-500 mt-2">7.517.328.907 pcs. available</div>
+    </div>
+
+    <!-- Summary Section -->
+    <div class="p-4 mt-4">
+        <div class="flex justify-between">
+            <div class="text-lg font-semibold text-gray-700">Summary:</div>
+            <div class="text-xl font-bold">$ 290,18</div>
+        </div>
+    </div>
+
+    <!-- Buy Button -->
+    <div class="p-4 mt-4">
+        <button
+            class="w-full bg-blue-500 text-white text-lg font-semibold py-3 rounded-lg hover:bg-blue-600 transition">
+            Buy
+        </button>
+    </div>
+
+</body>
+
+</html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,15 +9,26 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <style>
-        .btn-active {
-            background-color: #aaabac; /* Indigo color for active state */
-            color: white;
-        }
-        .btn-inactive {
-            background-color: #f3f4f6; /* Default gray for inactive */
-            color: #1f2937;
-        }
+    .btn-active {
+        background-color: #aaabac;
+        /* Indigo color for active state */
+        color: white;
+    }
+
+    .btn-inactive {
+        background-color: #f3f4f6;
+        /* Default gray for inactive */
+        color: #1f2937;
+    }
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    .no-scrollbar {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
 </style>
+
 <body class="bg-white">
 
     <!-- Header with Back Button -->
@@ -27,119 +39,215 @@
         <h1 class="ml-4 text-xl font-semibold">Stock market</h1>
     </div>
 
-    <!-- Filter Buttons (Functioning as Checkbox) -->
-    <div class="flex justify-around mt-4 px-4">
-        <button id="dividendHighBtn" class="filter-btn btn-inactive px-3 py-1.5 text-sm rounded-full text-gray-800">Highest dividend</button>
-        <button id="dividendLowBtn" class="filter-btn btn-inactive px-3 py-1.5 text-sm rounded-full text-gray-800">Lowest dividend</button>
-        <button id="cheapTodayBtn" class="filter-btn btn-inactive px-3 py-1.5 text-sm rounded-full text-gray-800">Cheap for today</button>
+    <!-- Sorting Buttons (Responsive & Horizontal scrollable) -->
+    <div class="w-full overflow-x-auto no-scrollbar">
+        <div class="flex space-x-2 w-max mb-3 mt-3">
+            <label class="cursor-pointer">
+                <input type="radio" name="filter" class="hidden peer" />
+                <span class="px-4 py-2 bg-gray-200 text-gray-600 rounded-full text-sm font-medium peer-checked:bg-blue-600 peer-checked:text-white">
+                    Cheap first
+                </span>
+            </label>
+            <label class="cursor-pointer">
+                <input type="radio" name="filter" class="hidden peer" />
+                <span class="px-4 py-2 bg-gray-200 text-gray-600 rounded-full text-sm font-medium peer-checked:bg-blue-600 peer-checked:text-white">
+                    Expensive first
+                </span>
+            </label>
+            <label class="cursor-pointer">
+                <input type="radio" name="filter" class="hidden peer" />
+                <span class="px-4 py-2 bg-gray-200 text-gray-600 rounded-full text-sm font-medium peer-checked:bg-blue-600 peer-checked:text-white">
+                    Highest capitalization
+                </span>
+            </label>
+            <label class="cursor-pointer">
+                <input type="radio" name="filter" class="hidden peer" />
+                <span class="px-4 py-2 bg-gray-200 text-gray-600 rounded-full text-sm font-medium peer-checked:bg-blue-600 peer-checked:text-white">
+                    Lowest capitalization
+                </span>
+            </label>
+        </div>
     </div>
 
     <!-- Stock List -->
-    <div class="mt-6 space-y-4">
+    <div class="mt-6 space-y-4 no-scrollbar">
         <!-- Stock Item - Apple -->
-        <div class="flex items-center justify-between px-4">
-            <div class="flex items-center">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple" class="h-10 w-10 rounded-full">
-                <div class="ml-4">
-                    <p class="font-medium">Apple Inc.</p>
-                    <p class="text-sm text-gray-500">Available</p>
+        <a href="buying.html">
+            <div class="flex items-center justify-between px-4">
+                <div class="flex items-center">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple"
+                        class="h-10 w-10 rounded-full">
+                    <div class="ml-4">
+                        <p class="font-medium">Apple Inc.</p>
+                        <p class="text-sm text-gray-500">Available</p>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <p class="font-medium">$145.09</p>
+                    <p class="text-green-500 text-sm">+ $1.02 (0.71%)</p>
                 </div>
             </div>
-            <div class="text-right">
-                <p class="font-medium">$145.09</p>
-                <p class="text-green-500 text-sm">+ $1.02 (0.71%)</p>
-            </div>
-        </div>
+        </a>
         <hr>
 
         <!-- Stock Item - Tesla -->
-        <div class="flex items-center justify-between px-4">
-            <div class="flex items-center">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/b/bb/Tesla_T_symbol.svg" alt="Tesla" class="h-10 w-10 rounded-full">
-                <div class="ml-4">
-                    <p class="font-medium">Tesla Inc.</p>
-                    <p class="text-sm text-gray-500">Available</p>
+        <a href="buying.html">
+            <div class="flex items-center justify-between px-4">
+                <div class="flex items-center">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/b/bb/Tesla_T_symbol.svg" alt="Tesla"
+                        class="h-10 w-10 rounded-full">
+                    <div class="ml-4">
+                        <p class="font-medium">Tesla Inc.</p>
+                        <p class="text-sm text-gray-500">Available</p>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <p class="font-medium">$759.63</p>
+                    <p class="text-green-500 text-sm">+ $5.73 (0.76%)</p>
                 </div>
             </div>
-            <div class="text-right">
-                <p class="font-medium">$759.63</p>
-                <p class="text-green-500 text-sm">+ $5.73 (0.76%)</p>
-            </div>
-        </div>
+        </a>
         <hr>
 
         <!-- Stock Item - Microsoft -->
-        <div class="flex items-center justify-between px-4">
-            <div class="flex items-center">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" alt="Microsoft" class="h-10 w-10 rounded-full">
-                <div class="ml-4">
-                    <p class="font-medium">Microsoft Corp.</p>
-                    <p class="text-sm text-gray-500">Available</p>
+        <a href="buying.html">
+            <div class="flex items-center justify-between px-4">
+                <div class="flex items-center">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" alt="Microsoft"
+                        class="h-10 w-10 rounded-full">
+                    <div class="ml-4">
+                        <p class="font-medium">Microsoft Corp.</p>
+                        <p class="text-sm text-gray-500">Available</p>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <p class="font-medium">$299.79</p>
+                    <p class="text-red-500 text-sm">- $0.42 (0.14%)</p>
                 </div>
             </div>
-            <div class="text-right">
-                <p class="font-medium">$299.79</p>
-                <p class="text-red-500 text-sm">- $0.42 (0.14%)</p>
-            </div>
-        </div>
+        </a>
         <hr>
 
         <!-- Stock Item - Amazon -->
-        <div class="flex items-center justify-between px-4">
-            <div class="flex items-center">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" alt="Amazon" class="h-10 w-10 rounded-full">
-                <div class="ml-4">
-                    <p class="font-medium">Amazon.com Inc.</p>
-                    <p class="text-sm text-gray-500">Available</p>
+        <a href="buying.html">
+            <div class="flex items-center justify-between px-4">
+                <div class="flex items-center">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" alt="Amazon"
+                        class="h-10 w-10 rounded-full">
+                    <div class="ml-4">
+                        <p class="font-medium">Amazon.com Inc.</p>
+                        <p class="text-sm text-gray-500">Available</p>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <p class="font-medium">$3,450.96</p>
+                    <p class="text-green-500 text-sm">+ $7.48 (0.22%)</p>
                 </div>
             </div>
-            <div class="text-right">
-                <p class="font-medium">$3,450.96</p>
-                <p class="text-green-500 text-sm">+ $7.48 (0.22%)</p>
-            </div>
-        </div>
+        </a>
         <hr>
 
         <!-- Stock Item - Google -->
-        <div class="flex items-center justify-between px-4">
-            <div class="flex items-center">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" alt="Google" class="h-10 w-10 rounded-full">
-                <div class="ml-4">
-                    <p class="font-medium">Alphabet Inc. (Google)</p>
-                    <p class="text-sm text-gray-500">Available</p>
+        <a href="buying.html">
+            <div class="flex items-center justify-between px-4">
+                <div class="flex items-center">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" alt="Google"
+                        class="h-10 w-10 rounded-full">
+                    <div class="ml-4">
+                        <p class="font-medium">Alphabet Inc. (Google)</p>
+                        <p class="text-sm text-gray-500">Available</p>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <p class="font-medium">$2,819.24</p>
+                    <p class="text-red-500 text-sm">- $12.34 (0.44%)</p>
                 </div>
             </div>
-            <div class="text-right">
-                <p class="font-medium">$2,819.24</p>
-                <p class="text-red-500 text-sm">- $12.34 (0.44%)</p>
-            </div>
-        </div>
+        </a>
         <hr>
 
         <!-- Stock Item - Nvidia -->
-        <div class="flex items-center justify-between px-4">
-            <div class="flex items-center">
-                <img src="https://upload.wikimedia.org/wikipedia/en/9/90/Nvidia_logo.svg" alt="Nvidia" class="h-10 w-10 rounded-full">
-                <div class="ml-4">
-                    <p class="font-medium">Nvidia Corp.</p>
-                    <p class="text-sm text-gray-500">Available</p>
+        <a href="buying.html">
+            <div class="flex items-center justify-between px-4">
+                <div class="flex items-center">
+                    <img src="https://upload.wikimedia.org/wikipedia/en/9/90/Nvidia_logo.svg" alt="Nvidia"
+                        class="h-10 w-10 rounded-full">
+                    <div class="ml-4">
+                        <p class="font-medium">Nvidia Corp.</p>
+                        <p class="text-sm text-gray-500">Available</p>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <p class="font-medium">$223.42</p>
+                    <p class="text-green-500 text-sm">+ $1.68 (0.76%)</p>
                 </div>
             </div>
-            <div class="text-right">
-                <p class="font-medium">$223.42</p>
-                <p class="text-green-500 text-sm">+ $1.68 (0.76%)</p>
+        </a>
+        <hr>
+        <!-- Stock Item - Nvidia -->
+        <a href="buying.html">
+            <div class="flex items-center justify-between px-4">
+                <div class="flex items-center">
+                    <img src="https://upload.wikimedia.org/wikipedia/en/9/90/Nvidia_logo.svg" alt="Nvidia"
+                        class="h-10 w-10 rounded-full">
+                    <div class="ml-4">
+                        <p class="font-medium">Nvidia Corp.</p>
+                        <p class="text-sm text-gray-500">Available</p>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <p class="font-medium">$223.42</p>
+                    <p class="text-green-500 text-sm">+ $1.68 (0.76%)</p>
+                </div>
             </div>
-        </div>
+        </a>
+        <hr>
+        <!-- Stock Item - Nvidia -->
+        <a href="buying.html">
+            <div class="flex items-center justify-between px-4">
+                <div class="flex items-center">
+                    <img src="https://upload.wikimedia.org/wikipedia/en/9/90/Nvidia_logo.svg" alt="Nvidia"
+                        class="h-10 w-10 rounded-full">
+                    <div class="ml-4">
+                        <p class="font-medium">Nvidia Corp.</p>
+                        <p class="text-sm text-gray-500">Available</p>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <p class="font-medium">$223.42</p>
+                    <p class="text-green-500 text-sm">+ $1.68 (0.76%)</p>
+                </div>
+            </div>
+        </a>
+        <hr>
+        <!-- Stock Item - Nvidia -->
+        <a href="buying.html">
+            <div class="flex items-center justify-between px-4">
+                <div class="flex items-center">
+                    <img src="https://upload.wikimedia.org/wikipedia/en/9/90/Nvidia_logo.svg" alt="Nvidia"
+                        class="h-10 w-10 rounded-full">
+                    <div class="ml-4">
+                        <p class="font-medium">Nvidia Corp.</p>
+                        <p class="text-sm text-gray-500">Available</p>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <p class="font-medium">$223.42</p>
+                    <p class="text-green-500 text-sm">+ $1.68 (0.76%)</p>
+                </div>
+            </div>
+        </a>
         <hr>
     </div>
     <script>
         // Toggle function to add/remove active class on button click
         document.querySelectorAll('.filter-btn').forEach(button => {
-            button.addEventListener('click', function() {
+            button.addEventListener('click', function () {
                 this.classList.toggle('btn-active');
                 this.classList.toggle('btn-inactive');
             });
         });
     </script>
 </body>
+
 </html>
