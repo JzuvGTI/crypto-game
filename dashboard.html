@@ -228,7 +228,10 @@
                 <!-- Container for animated money -->
                 <div id="money-container" class="money-container"></div>
                 <!-- Audio element for the money sound effect -->
-                <audio id="money-sound" src="/assets/money-sound.mp3" preload="auto"></audio>
+                <audio id="money-sound" preload="auto">
+                    <source src="/assets/money-sound.mp3" type="audio/mpeg">
+                    <source src="/assets/money-sound.ogg" type="audio/ogg">
+                </audio>
                 <!-- Volume Toggle Button -->
                 <button id="toggle-sound" class="absolute top-3 right-3 text-gray-500">
                     <i id="volume-icon" class="text-[20px] fas fa-volume-up fa-2x"></i>
@@ -395,7 +398,9 @@
             if (isClickable) {
                 // Set status to not clickable
                 isClickable = false;
-
+                if (isSoundOn) {
+                    moneySound.play();
+                }
                 // Generate random amount to add
                 const randomAmount = generateRandomAmount();
 
@@ -408,8 +413,10 @@
 
                 // Play money sound if sound is on
                 if (isSoundOn) {
-                    moneySound.currentTime = 0; // Reset to start if clicked quickly
-                    moneySound.play();
+                    moneySound.currentTime = 0;  // Mulai dari awal
+                    moneySound.play().catch((error) => {
+                        console.log("Audio playback failed: ", error);
+                    });
                 }
 
                 // Show money animation at cursor position
