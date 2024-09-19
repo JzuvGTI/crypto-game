@@ -1,35 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crypto Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.css"  rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 </head>
 <style>
     .click-area {
-        cursor: pointer;
-        color: gray;
-        text-align: center;
-        margin-top: 40px;
         position: relative;
+        text-align: center;
+        transition: all 0.3s ease;
     }
 
-    /* Animation for hand icon */
-    .click-area .fa-hand-pointer {
-        transition: transform 0.2s ease;
+    #toggle-sound {
+        background: none;
+        border: none;
+        cursor: pointer;
     }
 
-    /* Animation when click happens */
-    .click-area.clicked .fa-hand-pointer {
-        transform: scale(1.3);
+    #toggle-sound i {
+        transition: color 0.3s ease;
     }
 
-    /* Reset after the animation */
-    .click-area.clicked .fa-hand-pointer.active {
-        transform: scale(1);
+    #toggle-sound:hover i {
+        color: #28a745; /* Green color when hovered */
     }
+
+    .click-area:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .money-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        overflow: hidden;
+    }
+
+    .money-text {
+        position: absolute;
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #28a745; /* Dollar green */
+        pointer-events: none;
+        animation: moveUp 1s ease-out forwards;
+        opacity: 0;
+        display: flex;
+        align-items: center;
+    }
+
+    .money-text i {
+        margin-right: 5px; /* Space between dollar icon and text */
+    }
+
+    @keyframes moveUp {
+        0% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(-50px);
+            opacity: 0;
+        }
+    }
+
+
+
+
 
     /* Mobile-Only and Rejection Message */
     @media (min-width: 1024px) {
@@ -61,165 +107,252 @@
         }
     }
 </style>
+
 <body class="bg-gray-100">
+    <div class="mobile-only">
+        <!-- Navbar -->
+        <div class="bg-blue-600 py-4 px-6 flex items-center justify-between rounded-b-lg fixed top-0 w-full z-50">
+            <div class="flex items-center space-x-4">
+                <button data-popover-target="popover-user-profile" class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md">
+                    <i class="fas fa-user text-blue-600 text-xl"></i>
+                </button>
+            </div>
+            <div class="text-white font-semibold text-[20px]">Dashboard</div>
+        </div>
 
-    <div class="bg-blue-600 py-4 px-6 flex items-center justify-between shadow-lg rounded-b-lg">
-        <div class="flex items-center space-x-4">
-            <!-- Profile Icon -->
-            <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md">
-                <i class="fas fa-user text-blue-600 text-xl"></i>
+        <!-- Hover Profile -->
+        <div data-popover id="popover-user-profile" role="tooltip" class="absolute z-50 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:bg-gray-800 dark:border-gray-600">
+            <div class="p-3">
+                <div class="flex items-center justify-between mb-2">
+                    <a href="#">
+                        <div class="w-10 h-10 rounded-full shadow justify-center items-center flex border border-blue-600"><i class="fas fa-user text-blue-600 text-xl"></i></div>
+                        <!-- <img class="w-10 h-10 rounded-full" src="/docs/images/people/profile-picture-1.jpg" alt="Profile User"> -->
+                    </a>
+                    <div>
+                        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-xs px-3 py-1.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Edit Profile</button>
+                    </div>
+                </div>
+                <p class="text-base font-semibold leading-none text-gray-900 dark:text-white">
+                    <a href="#">Raihan Hariyanto</a>
+                    <!-- if Admin Will Verifed -->
+                    <span class="inline-flex items-center justify-center w-6 h-6 me-2 text-sm font-semibold text-blue-800 bg-blue-100 rounded-full dark:bg-gray-700 dark:text-blue-400">
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill="currentColor" d="m18.774 8.245-.892-.893a1.5 1.5 0 0 1-.437-1.052V5.036a2.484 2.484 0 0 0-2.48-2.48H13.7a1.5 1.5 0 0 1-1.052-.438l-.893-.892a2.484 2.484 0 0 0-3.51 0l-.893.892a1.5 1.5 0 0 1-1.052.437H5.036a2.484 2.484 0 0 0-2.48 2.481V6.3a1.5 1.5 0 0 1-.438 1.052l-.892.893a2.484 2.484 0 0 0 0 3.51l.892.893a1.5 1.5 0 0 1 .437 1.052v1.264a2.484 2.484 0 0 0 2.481 2.481H6.3a1.5 1.5 0 0 1 1.052.437l.893.892a2.484 2.484 0 0 0 3.51 0l.893-.892a1.5 1.5 0 0 1 1.052-.437h1.264a2.484 2.484 0 0 0 2.481-2.48V13.7a1.5 1.5 0 0 1 .437-1.052l.892-.893a2.484 2.484 0 0 0 0-3.51Z"/>
+                        <path fill="#fff" d="M8 13a1 1 0 0 1-.707-.293l-2-2a1 1 0 1 1 1.414-1.414l1.42 1.42 5.318-3.545a1 1 0 0 1 1.11 1.664l-6 4A1 1 0 0 1 8 13Z"/>
+                    </svg>
+                </p>
+                <p class="mb-3 text-sm font-normal">
+                    <a href="#" class="hover:underline">TPR87263472634</a>
+                </p>
+                <p class="mb-4 text-sm">its your account, your role is <a href="" class="text-blue-600 hover:underline">Admin</a></a>.</p>
+                <ul class="flex text-sm">
+                    <li class="me-2">
+                        <a href="#" class="hover:underline">
+                            <span class="font-semibold text-gray-900 dark:text-white">$ 0.00</span>
+                            <span>Balance</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="hover:underline">
+                            <span class="font-semibold text-gray-900 dark:text-white">Status</span>
+                            <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">Online</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div data-popper-arrow></div>
+        </div>
+
+        <!-- Balance Card -->
+        <div class="pt-20">
+            <div class="relative">
+                <!-- Navbar (Background) -->
+                <div
+                    class="bg-blue-600 py-4 px-6 flex items-center justify-between shadow-lg absolute w-full top-0 h-[50%] z-0 -mt-[10px]">
+                </div>
+
+                <!-- Main Content (Cards) -->
+                <div class="relative z-10 p-6">
+                    <!-- Total Investasi Card -->
+                    <div class="bg-white rounded-lg p-6 shadow-md relative">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="text-gray-500">Total Investasi<i class="fas fa-eye cursor-pointer ml-1 text-sm"
+                                        id="toggle-eye"></i></p>
+                                <!-- Saldo yang bisa di-hide/show -->
+                                <p id="balance-amount" class="text-[20px] font-bold">Rp 20.000</p>
+                                <p class="text-green-500 text-[13px]">Return +Rp0 (+0%)</p>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center mt-4 space-x-2">
+                            <!-- Button with icons and captions -->
+                            <div class="flex flex-col items-center">
+                                <a href="transfer.html"
+                                    class="flex items-center justify-center w-8 h-8 border-2 border-blue-600 text-blue-600 rounded-full hover:bg-blue-100 transition duration-300">
+                                    <i class="fas fa-paper-plane text-lg"></i>
+                                </a>
+                                <p class="text-sm text-gray-700 mt-1">Kirim</p>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <a href="#"
+                                    class="flex items-center justify-center w-8 h-8 border-2 border-blue-600 text-blue-600 rounded-full hover:bg-blue-100 transition duration-300">
+                                    <i class="fas fa-plus-circle text-lg"></i>
+                                </a>
+                                <p class="text-sm text-gray-700 mt-1">Deposit</p>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <a href="#"
+                                    class="flex items-center justify-center w-8 h-8 border-2 border-blue-600 text-blue-600 rounded-full hover:bg-blue-100 transition duration-300">
+                                    <i class="fas fa-history text-lg"></i>
+                                </a>
+                                <p class="text-sm text-gray-700 mt-1">History</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- New Crypto Card (Attached Directly) -->
+                    <a href="history.html"
+                        class="bg-yellow-400 rounded-b-lg p-4 flex items-center justify-between -mt-[5px]">
+                        <p class=" text-black font-bold text-[15px]">Cek history transaksi.</p>
+                        <i class="fas fa-angle-right"></i>
+                    </a>
+                </div>
             </div>
         </div>
-        <div class="text-white font-semibold text-[20px]">Dashboard</div>
-    </div>
 
-
-    <div class="p-6">
-        <div class="bg-white rounded-lg p-6 shadow-md relative">
-            <div class="flex justify-between items-center">
-                <div>
-                    <p class="text-gray-500">Total Balance<i class="fas fa-eye cursor-pointer ml-1 text-sm" id="toggle-eye"></i></p>
-                    <!-- Saldo yang bisa di-hide/show -->
-                    <p id="balance-amount" class="text-[20px] font-bold">$0.00</p>
-                    <p class="text-green-500 text-[13px]">Return +Rp0 (+0%)</p>
-                </div>
-            </div>
-            <div class="flex justify-between items-center mt-4 space-x-2">
-                <!-- Button with icons and captions -->
-                <div class="flex flex-col items-center">
-                    <a href="transfer.html" class="flex items-center justify-center w-8 h-8 border-2 border-blue-600 text-blue-600 rounded-full hover:bg-blue-100 transition duration-300">
-                        <i class="fas fa-paper-plane text-lg"></i>
-                    </a>
-                    <p class="text-sm text-gray-700 mt-1">Kirim</p>
-                </div>
-                <div class="flex flex-col items-center">
-                    <a href="#" class="flex items-center justify-center w-8 h-8 border-2 border-blue-600 text-blue-600 rounded-full hover:bg-blue-100 transition duration-300">
-                        <i class="fas fa-plus-circle text-lg"></i>
-                    </a>
-                    <p class="text-sm text-gray-700 mt-1">Deposit</p>
-                </div>
-                <div class="flex flex-col items-center">
-                    <a href="#" class="flex items-center justify-center w-8 h-8 border-2 border-blue-600 text-blue-600 rounded-full hover:bg-blue-100 transition duration-300">
-                        <i class="fas fa-history text-lg"></i>
-                    </a>
-                    <p class="text-sm text-gray-700 mt-1">History</p>
-                </div>
+        <!-- Tap Area -->
+        <div class="p-6">
+            <div class="click-area shadow-lg rounded-lg p-12 relative overflow-hidden" id="click-area">
+                <i class="fas fa-hand-pointer fa-3x text-gray-400"></i>
+                <div class="text-gray-400 text-lg">Click to earn money</div>
+                <!-- Container for animated money -->
+                <div id="money-container" class="money-container"></div>
+                <!-- Audio element for the money sound effect -->
+                <audio id="money-sound" src="/assets/money-sound.mp3" preload="auto"></audio>
+                <!-- Volume Toggle Button -->
+                <button id="toggle-sound" class="absolute top-3 right-3 text-gray-500">
+                    <i id="volume-icon" class="text-[20px] fas fa-volume-up fa-2x"></i>
+                </button>
             </div>
         </div>
+        
+        
+        <!-- Watchlist Section -->
+        <div class="p-6 mb-10">
+            <div class="flex justify-between items-center mb-4">
+                <p class="text-xl font-bold">Watchlist</p>
+                <button class="text-blue-600 font-bold text-sm">Watchlist Saya</button>
+            </div>
+
+            <!-- Watchlist Table -->
+            <div class="bg-white rounded-lg p-4 shadow-md">
+                <table class="w-full">
+                    <thead>
+                        <tr class="text-left text-gray-500 border-b">
+                            <th class="p-2">Kode</th>
+                            <th class="p-2">Performa Hari Ini</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Bitcoin Row -->
+                        <tr class="border-b">
+                            <td class="p-2 flex items-center">
+                                <i class="fab fa-bitcoin text-2xl text-orange-500 mr-2"></i>
+                                <p>Bitcoin (BTC)</p>
+                            </td>
+                            <td class="p-2">
+                                <p class="font-bold">Rp 929.325.885</p>
+                                <p class="text-green-500">+38.187.330 (+4,28%)</p>
+                            </td>
+                        </tr>
+                        <!-- Ethereum Row -->
+                        <tr class="border-b">
+                            <td class="p-2 flex items-center">
+                                <i class="fab fa-ethereum text-2xl text-gray-500 mr-2"></i>
+                                <p>Ethereum (ETH)</p>
+                            </td>
+                            <td class="p-2">
+                                <p class="font-bold">Rp 35.845.438</p>
+                                <p class="text-green-500">+827.104,2 (+2,36%)</p>
+                            </td>
+                        </tr>
+                        <!-- Solana Row -->
+                        <tr>
+                            <td class="p-2 flex items-center">
+                                <i class="fas fa-coins text-2xl text-blue-500 mr-2"></i>
+                                <p>Solana (SOL/IDR)</p>
+                            </td>
+                            <td class="p-2">
+                                <p class="font-bold">Rp 2.024.880</p>
+                                <p class="text-green-500">+8.486,25 (+0,42%)</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Sticky Footer -->
+        <footer class="bg-white shadow-inner w-full fixed bottom-0">
+            <div class="flex justify-around py-2 border-t">
+                <!-- Investing -->
+                <a href="investing.html" class="flex flex-col items-center text-gray-600 hover:text-blue-500">
+                    <i class="fas fa-chart-line text-xl"></i>
+                    <span class="text-xs">Investing</span>
+                </a>
+                <!-- Business -->
+                <a href="#business" class="flex flex-col items-center text-gray-600 hover:text-blue-500">
+                    <i class="fas fa-city text-xl"></i>
+                    <span class="text-xs">Business</span>
+                </a>
+                <!-- Earnings -->
+                <a href="dashboard.html" class="flex flex-col items-center text-blue-600 hover:text-blue-500">
+                    <i class="fas fa-dollar-sign text-xl"></i>
+                    <span class="text-xs">Earnings</span>
+                </a>
+                <!-- Items -->
+                <a href="#items" class="flex flex-col items-center text-gray-600 hover:text-blue-500">
+                    <i class="fas fa-th-large text-xl"></i>
+                    <span class="text-xs">Items</span>
+                </a>
+                <!-- Profile -->
+                <a href="profile.html" class="flex flex-col items-center text-gray-600 hover:text-blue-500">
+                    <i class="fas fa-user text-xl"></i>
+                    <span class="text-xs">Profile</span>
+                </a>
+            </div>
+        </footer>
     </div>
-    
-    <div class="p-6">
-        <!-- Click Area -->
-        <div class="click-area mb-5 bg-white shadow drop-shadow rounded-lg p-12" id="click-area">
-            <i class="fas fa-hand-pointer fa-3x"></i>
-            <div>Click in this area to earn money</div>
-        </div>
-    </div>
-
-    
-
-    <!-- Watchlist Section -->
-    <div class="p-6 mb-10">
-        <div class="flex justify-between items-center mb-4 mt-10">
-            <p class="text-xl font-bold">Watchlist</p>
-            <button class="text-blue-600 font-bold text-sm">Watchlist Saya</button>
-        </div>
-
-        <!-- Watchlist Table -->
-        <div class="bg-white rounded-lg p-4 shadow-md">
-            <table class="w-full">
-                <thead>
-                    <tr class="text-left text-gray-500 border-b">
-                        <th class="p-2">Kode</th>
-                        <th class="p-2">Performa Hari Ini</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Bitcoin Row -->
-                    <tr class="border-b">
-                        <td class="p-2 flex items-center">
-                            <i class="fab fa-bitcoin text-2xl text-orange-500 mr-2"></i>
-                            <p>Bitcoin (BTC)</p>
-                        </td>
-                        <td class="p-2">
-                            <p class="font-bold">Rp 929.325.885</p>
-                            <p class="text-green-500">+38.187.330 (+4,28%)</p>
-                        </td>
-                    </tr>
-                    <!-- Ethereum Row -->
-                    <tr class="border-b">
-                        <td class="p-2 flex items-center">
-                            <i class="fab fa-ethereum text-2xl text-gray-500 mr-2"></i>
-                            <p>Ethereum (ETH)</p>
-                        </td>
-                        <td class="p-2">
-                            <p class="font-bold">Rp 35.845.438</p>
-                            <p class="text-green-500">+827.104,2 (+2,36%)</p>
-                        </td>
-                    </tr>
-                    <!-- Solana Row -->
-                    <tr>
-                        <td class="p-2 flex items-center">
-                            <i class="fas fa-coins text-2xl text-blue-500 mr-2"></i>
-                            <p>Solana (SOL/IDR)</p>
-                        </td>
-                        <td class="p-2">
-                            <p class="font-bold">Rp 2.024.880</p>
-                            <p class="text-green-500">+8.486,25 (+0,42%)</p>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div> 
-
-    <!-- Sticky Footer -->
-    <footer class="bg-white shadow-inner w-full fixed bottom-0">
-        <div class="flex justify-around py-2 border-t">
-            <!-- Investing -->
-            <a href="investing.html" class="flex flex-col items-center text-gray-600 hover:text-blue-500">
-                <i class="fas fa-chart-line text-xl"></i>
-                <span class="text-xs">Investing</span>
-            </a>
-            <!-- Business -->
-            <a href="#business" class="flex flex-col items-center text-gray-600 hover:text-blue-500">
-                <i class="fas fa-city text-xl"></i>
-                <span class="text-xs">Business</span>
-            </a>
-            <!-- Earnings -->
-            <a href="dashboard.html" class="flex flex-col items-center text-blue-600 hover:text-blue-500">
-                <i class="fas fa-dollar-sign text-xl"></i>
-                <span class="text-xs">Earnings</span>
-            </a>
-            <!-- Items -->
-            <a href="#items" class="flex flex-col items-center text-gray-600 hover:text-blue-500">
-                <i class="fas fa-th-large text-xl"></i>
-                <span class="text-xs">Items</span>
-            </a>
-            <!-- Profile -->
-            <a href="profile.html" class="flex flex-col items-center text-gray-600 hover:text-blue-500">
-                <i class="fas fa-user text-xl"></i>
-                <span class="text-xs">Profile</span>
-            </a>
-        </div>
-    </footer>
 
     <script>
         // Variables
         let balance = 0.00;
+        let isSoundOn = true; // Default sound on
         const balanceAmountElement = document.getElementById('balance-amount');
         const toggleEyeElement = document.getElementById('toggle-eye');
         const clickAreaElement = document.getElementById('click-area');
+        const moneyContainer = document.getElementById('money-container');
+        const moneySound = document.getElementById('money-sound'); // Reference to the audio element
+        const toggleSoundButton = document.getElementById('toggle-sound');
+        const volumeIcon = document.getElementById('volume-icon');
         let isBalanceVisible = true;
-        let isClickable = true; // Status untuk melacak apakah elemen dapat diklik
+        let isClickable = true; // Status to track if element can be clicked
 
-        // Function to format number with comma and dot
+        // Load saved balance from localStorage
+        if (localStorage.getItem('balance')) {
+            balance = parseFloat(localStorage.getItem('balance'));
+            balanceAmountElement.innerText = formatBalance(balance);
+        } else {
+            balance = 0.00;
+        }
+
+        // Function to format number with comma and dot (USD format)
         function formatBalance(balance) {
-            return balance.toLocaleString('de-DE', { style: 'currency', currency: 'USD' }).replace('.', ',').replace(',', '.');
+            return balance.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
         }
 
         // Function to toggle balance visibility
-        toggleEyeElement.addEventListener('click', function () {
+        toggleEyeElement?.addEventListener('click', function () {
             isBalanceVisible = !isBalanceVisible;
             if (isBalanceVisible) {
                 balanceAmountElement.innerText = formatBalance(balance);
@@ -230,30 +363,78 @@
             }
         });
 
+        // Function to generate random dollar amount with decimals (e.g., $250.00 to $250.99)
+        function generateRandomAmount() {
+            const randomCents = (Math.random() * 0.99).toFixed(2); // Generate random cents between 0.00 and 0.99
+            return parseFloat(250 + parseFloat(randomCents)); // Add 250 as base and add the random cents
+        }
+
+        // Function to create animated money text at cursor position
+        function showMoneyAtCursor(x, y, amount) {
+            const moneyText = document.createElement('div');
+            moneyText.classList.add('money-text');
+            
+            // Add dollar icon and formatted amount
+            moneyText.innerHTML = `<i class="fas fa-dollar-sign"></i> ${formatBalance(amount)}`;
+
+            // Set the position based on cursor location
+            moneyText.style.left = `${x}px`;
+            moneyText.style.top = `${y}px`;
+
+            // Append to container
+            moneyContainer.appendChild(moneyText);
+
+            // Remove the element after animation ends
+            setTimeout(() => {
+                moneyText.remove();
+            }, 1000);
+        }
+
         // Function to increment balance and trigger animation
-        clickAreaElement.addEventListener('click', function () {
+        clickAreaElement.addEventListener('click', function (event) {
             if (isClickable) {
-                // Set status tidak dapat diklik
+                // Set status to not clickable
                 isClickable = false;
 
+                // Generate random amount to add
+                const randomAmount = generateRandomAmount();
+
                 // Increment balance
-                balance += 250;
+                balance += randomAmount;
                 balanceAmountElement.innerText = formatBalance(balance);
 
-                // Add 'clicked' class for animation
-                clickAreaElement.classList.add('clicked');
+                // Save balance to localStorage
+                localStorage.setItem('balance', balance.toFixed(2));
 
-                // Reset the animation after 200ms
-                setTimeout(function () {
-                    clickAreaElement.classList.remove('clicked');
-                }, 200);
+                // Play money sound if sound is on
+                if (isSoundOn) {
+                    moneySound.currentTime = 0; // Reset to start if clicked quickly
+                    moneySound.play();
+                }
 
-                // Aktifkan kembali klik setelah delay tertentu (misalnya, 500ms)
+                // Show money animation at cursor position
+                const x = event.clientX - clickAreaElement.getBoundingClientRect().left;
+                const y = event.clientY - clickAreaElement.getBoundingClientRect().top;
+                showMoneyAtCursor(x, y, randomAmount);
+
+                // Re-enable click after a certain delay (e.g., 500ms)
                 setTimeout(function () {
                     isClickable = true;
-                }, 200);
+                }, 1000);
             }
         });
+
+        // Function to toggle sound on/off
+        toggleSoundButton.addEventListener('click', function () {
+            isSoundOn = !isSoundOn; // Toggle sound state
+            if (isSoundOn) {
+                volumeIcon.classList.replace('fa-volume-mute', 'fa-volume-up');
+            } else {
+                volumeIcon.classList.replace('fa-volume-up', 'fa-volume-mute');
+            }
+        });
+
     </script>
 </body>
+
 </html>
