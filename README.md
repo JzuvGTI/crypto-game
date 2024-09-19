@@ -36,6 +36,14 @@
 
 ---
 
+## **Feature V1.3**
+
+- **Update Balance**
+- **Now Balance is save**
+- **Added Animation On Click**
+- **Added Sound Effect**
+- **Added On/Off Sound Effect**
+
 ## **Technology Stack**
 
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-38B2AC?logo=tailwindcss&logoColor=white&style=for-the-badge)
