@@ -6,6 +6,7 @@
     <title>Stock Portfolio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
 <style>
     /* Untuk menyembunyikan scrollbar pada div dengan class coins-list */
@@ -94,14 +95,14 @@
                 </div>
                 <p class="text-3xl font-bold mt-2">$ 0.00</p>
                 <p class="text-green-500 text-sm">+ $0.00 (0.00%)</p>
-                <button onclick="location.href='buy-crypto.html'" class="bg-gray-300 text-gray-700 py-2 px-4 mt-4 rounded-lg shadow-md w-full">Buy</button>
+                <button class="bg-gray-300 text-gray-700 py-2 px-4 mt-4 rounded-lg shadow-md w-full">Buy</button>
             </div>
         </div>
 
         <div class="p-4">
             <div class="mt-4 coins-list max-h-64 overflow-y-scroll">
                 <h3 class="font-bold text-gray-600">Coins</h3>
-                <div class="flex justify-between py-2">
+                <div class="flex justify-between py-2" data-aos="fade-up" data-aos-duration="3000">
                     <div class="flex items-center space-x-2">
                         <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png" alt="Bitcoin" class="w-6 h-6">
                         <div>
@@ -112,7 +113,7 @@
                     <p class="text-green-500">$3.80 (+25.16%)</p>
                 </div>
                 
-                <div class="flex justify-between py-2">
+                <div class="flex justify-between py-2" data-aos="fade-up" data-aos-duration="3000">
                     <div class="flex items-center space-x-2">
                         <img src="https://cryptologos.cc/logos/ethereum-eth-logo.png" alt="Ethereum" class="w-6 h-6">
                         <div>
@@ -123,7 +124,7 @@
                     <p class="text-red-500">$719.3k (-0.99%)</p>
                 </div>
                 
-                <div class="flex justify-between py-2">
+                <div class="flex justify-between py-2" data-aos="fade-up" data-aos-duration="3000">
                     <div class="flex items-center space-x-2">
                         <img src="https://cryptologos.cc/logos/solana-sol-logo.png" alt="Solana" class="w-6 h-6">
                         <div>
@@ -134,7 +135,7 @@
                     <p class="text-red-500">$10.3k (-0.99%)</p>
                 </div>
                 
-                <div class="flex justify-between py-2">
+                <div class="flex justify-between py-2" data-aos="fade-up" data-aos-duration="3000">
                     <div class="flex items-center space-x-2">
                         <img src="https://cryptologos.cc/logos/binance-coin-bnb-logo.png" alt="Binance Coin" class="w-6 h-6">
                         <div>
@@ -145,7 +146,7 @@
                     <p class="text-green-500">$3.8k (+12.47%)</p>
                 </div>
                 
-                <div class="flex justify-between py-2">
+                <div class="flex justify-between py-2" data-aos="fade-up" data-aos-duration="3000">
                     <div class="flex items-center space-x-2">
                         <img src="https://cryptologos.cc/logos/cardano-ada-logo.png" alt="Cardano" class="w-6 h-6">
                         <div>
@@ -156,7 +157,7 @@
                     <p class="text-red-500">$400 (-2.45%)</p>
                 </div>
                 
-                <div class="flex justify-between py-2">
+                <div class="flex justify-between py-2" data-aos="fade-up" data-aos-duration="3000">
                     <div class="flex items-center space-x-2">
                         <img src="https://cryptologos.cc/logos/book-of-meme-bome-logo.png" alt="Bome" class="w-6 h-6">
                         <div>
@@ -167,7 +168,7 @@
                     <p class="text-green-500">$550 (+5.12%)</p>
                 </div>
                 
-                <div class="flex justify-between py-2">
+                <div class="flex justify-between py-2" data-aos="fade-up" data-aos-duration="3000">
                     <div class="flex items-center space-x-2">
                         <img src="https://cryptologos.cc/logos/shiba-inu-shib-logo.png" alt="Shiba" class="w-6 h-6">
                         <div>
@@ -178,7 +179,7 @@
                     <p class="text-green-500">$1.5k (+8.32%)</p>
                 </div>
                 
-                <div class="flex justify-between py-2">
+                <div class="flex justify-between py-2" data-aos="fade-up" data-aos-duration="3000">
                     <div class="flex items-center space-x-2">
                         <img src="https://cryptologos.cc/logos/chainlink-link-logo.png" alt="Chainlink" class="w-6 h-6">
                         <div>
@@ -189,7 +190,7 @@
                     <p class="text-red-500">$350 (-1.92%)</p>
                 </div>
                 
-                <div class="flex justify-between py-2">
+                <div class="flex justify-between py-2" data-aos="fade-up" data-aos-duration="3000">
                     <div class="flex items-center space-x-2">
                         <img src="https://cryptologos.cc/logos/litecoin-ltc-logo.png" alt="Litecoin" class="w-6 h-6">
                         <div>
@@ -222,19 +223,24 @@
                 <i class="fas fa-dollar-sign text-xl"></i>
                 <span class="text-xs">Earnings</span>
             </a>
-            <!-- Gambling -->
-            <a href="crash-game.html" class="flex flex-col items-center text-gray-600 hover:text-blue-500">
-                <i class="fas fa-chart-line text-xl"></i>
-                <span class="text-xs">Gambling</span>
+            <!-- Items -->
+            <a href="#items" class="flex flex-col items-center text-gray-600 hover:text-blue-500">
+                <i class="fas fa-th-large text-xl"></i>
+                <span class="text-xs">Items</span>
             </a>
             <!-- Profile -->
-            <a href="profile.html" class="flex flex-col items-center text-gray-600 hover:text-blue-500">
+            <a href="#profile" class="flex flex-col items-center text-gray-600 hover:text-blue-500">
                 <i class="fas fa-user text-xl"></i>
                 <span class="text-xs">Profile</span>
             </a>
         </div>
     </footer>
 
+    <!-- JavaScript Animation-->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
     <script>
         function showTab(tabName) {
             // Hide all tabs
