@@ -303,11 +303,12 @@
                     <i class="fas fa-chart-line text-xl"></i>
                     <span class="text-xs">Investing</span>
                 </a>
-                <!-- Business -->
-                <a href="#business" class="flex flex-col items-center text-gray-600 hover:text-blue-500">
-                    <i class="fas fa-city text-xl"></i>
-                    <span class="text-xs">Business</span>
+                <!-- Mines Gambling -->
+                <a href="#mines-gambling" class="flex flex-col items-center text-gray-600 hover:text-blue-500">
+                    <i class="fas fa-bomb text-xl"></i> <!-- Icon of a bomb to represent Mines Gambling -->
+                    <span class="text-xs">Mines</span>
                 </a>
+
                 <!-- Earnings -->
                 <a href="dashboard.html" class="flex flex-col items-center text-blue-600 hover:text-blue-500">
                     <i class="fas fa-dollar-sign text-xl"></i>
@@ -368,9 +369,11 @@
 
         // Function to generate random dollar amount with decimals (e.g., $250.00 to $250.99)
         function generateRandomAmount() {
+            const randomBase = Math.floor(Math.random() * (10 - 4 + 1)) + 4; // Generate random base between 9 and 50
             const randomCents = (Math.random() * 0.99).toFixed(2); // Generate random cents between 0.00 and 0.99
-            return parseFloat(250 + parseFloat(randomCents)); // Add 250 as base and add the random cents
+            return parseFloat(randomBase + parseFloat(randomCents)); // Add random base and random cents
         }
+
 
         // Function to create animated money text at cursor position
         function showMoneyAtCursor(x, y, amount) {

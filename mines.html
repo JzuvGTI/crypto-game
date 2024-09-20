@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mines Game</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+</head>
+<body class="bg-gray-100 text-gray-800 min-h-screen flex items-center justify-center">
+
+    <div class="w-full max-w-md p-8 bg-white  shadow-2xl relative mb-10">
+        <!-- Game Title -->
+        <h1 class="text-center text-2xl font-bold mb-4 text-gray-700">Mines Game</h1>
+
+        <!-- Balance and Statistics Section -->
+        <div class="bg-gray-200 p-4 rounded-xl shadow-md mb-6">
+            <div class="flex justify-between items-center mb-4">
+                <span class="text-sm font-semibold">Balance:</span>
+                <span id="balance" class="text-lg font-bold text-gray-700">100.00 $</span>
+            </div>
+            <div class="flex justify-between items-center mb-2">
+                <span class="text-sm font-semibold">Wins:</span>
+                <span id="win-count" class="text-sm font-bold text-green-500">0</span>
+            </div>
+            <div class="flex justify-between items-center mb-2">
+                <span class="text-sm font-semibold">Losses:</span>
+                <span id="loss-count" class="text-sm font-bold text-red-500">0</span>
+            </div>
+            <div class="flex justify-between items-center">
+                <span class="text-sm font-semibold">Profit:</span>
+                <span id="profit" class="text-sm font-bold text-gray-700">0.00 $</span>
+            </div>
+        </div>
+
+        <!-- Game Grid -->
+        <div id="game-board" class="grid grid-cols-5 gap-3 mb-8">
+            <!-- Dynamically generated grid will go here -->
+        </div>
+
+        <!-- Betting and Controls Section -->
+        <div class="bg-gray-200 p-4 rounded-xl shadow-md">
+            <!-- Bet Amount Section -->
+            <div class="flex justify-between items-center mb-4">
+                <span class="text-sm font-semibold">Bet Amount</span>
+                <div class="flex items-center space-x-2">
+                    <input type="text" id="bet-amount" class="bg-gray-100 text-gray-700 border border-gray-300 rounded-md p-2 w-32 text-right" placeholder="0.00" value="1.00">
+                    <i class="fas fa-dollar-sign text-green-500"></i>
+                </div>
+            </div>
+
+            <!-- Bet Multiplier Buttons -->
+            <div class="flex justify-between items-center mb-4">
+                <button id="half-bet" class="bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded-lg text-sm">½</button>
+                <button id="double-bet" class="bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded-lg text-sm">2x</button>
+                <button id="place-bet" class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg">Bet</button>
+            </div>
+
+            <!-- Mines Selection -->
+            <div class="flex justify-between items-center">
+                <span class="text-sm font-semibold">Mines</span>
+                <input type="number" id="mines-number" class="bg-gray-100 text-gray-700 border border-gray-300 rounded-md p-2 w-16 text-right" value="3" min="1" max="24">
+            </div>
+
+            <!-- Cashout Button -->
+            <button id="cashout" class="w-full bg-gray-400 text-white py-2 mt-4 rounded-lg cursor-not-allowed" disabled>Cashout</button>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="fixed top-4 right-4 space-y-2 z-50"></div>
+
+    <!-- Sticky Footer -->
+    <footer class="bg-white shadow-inner w-full fixed bottom-0">
+        <div class="flex justify-around py-2 border-t">
+            <!-- Investing -->
+            <a href="investing.html" class="flex flex-col items-center text-gray-600 hover:text-blue-500">
+                <i class="fas fa-chart-line text-xl"></i>
+                <span class="text-xs">Investing</span>
+            </a>
+            <!-- Mines Gambling -->
+            <a href="#mines-gambling" class="flex flex-col items-center text-blue-600 hover:text-blue-500">
+                <i class="fas fa-bomb text-xl"></i> <!-- Icon of a bomb to represent Mines Gambling -->
+                <span class="text-xs">Mines</span>
+            </a>
+
+            <!-- Earnings -->
+            <a href="dashboard.html" class="flex flex-col items-center text-gray-600 hover:text-blue-500">
+                <i class="fas fa-dollar-sign text-xl"></i>
+                <span class="text-xs">Earnings</span>
+            </a>
+            <!-- Gambling -->
+            <a href="crash-game.html" class="flex flex-col items-center text-gray-600 hover:text-blue-500">
+                <i class="fas fa-chart-line text-xl"></i>
+                <span class="text-xs">Gambling</span>
+            </a>
+            <!-- Profile -->
+            <a href="profile.html" class="flex flex-col items-center text-gray-600 hover:text-blue-500">
+                <i class="fas fa-user text-xl"></i>
+                <span class="text-xs">Profile</span>
+            </a>
+        </div>
+    </footer>
+    <!-- Bagian yang relevan pada script -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Variabel-variabel utama
+        const gameBoard = document.getElementById('game-board');
+        const betAmountInput = document.getElementById('bet-amount');
+        const cashoutButton = document.getElementById('cashout');
+        const placeBetButton = document.getElementById('place-bet');
+        const minesInput = document.getElementById('mines-number');
+        const toastContainer = document.getElementById('toast-container');
+
+        // Stats elements
+        const balanceElement = document.getElementById('balance');
+        const winCountElement = document.getElementById('win-count');
+        const lossCountElement = document.getElementById('loss-count');
+        const profitElement = document.getElementById('profit');
+
+        let grid = [];
+        let mines = [];
+        let betAmount = 0;
+        let isGameActive = false;
+        let tilesClicked = 0;
+        let balance = parseFloat(localStorage.getItem('balance')) || 100.00;
+        let winCount = parseInt(localStorage.getItem('winCount')) || 0;
+        let lossCount = parseInt(localStorage.getItem('lossCount')) || 0;
+        let totalProfit = parseFloat(localStorage.getItem('profit')) || 0.00;
+        let multiplier = 1.00;
+
+        // Fungsi untuk membuat grid
+        function createGrid() {
+            grid = [];
+            gameBoard.innerHTML = '';
+            tilesClicked = 0;
+            for (let i = 0; i < 25; i++) {
+                const tile = document.createElement('div');
+                tile.classList.add('bg-gray-300', 'w-14', 'h-14', 'rounded-lg', 'cursor-pointer', 'flex', 'items-center', 'justify-center', 'transition', 'duration-300', 'hover:shadow-lg');
+                tile.dataset.index = i;
+                tile.addEventListener('click', handleTileClick);
+                grid.push(tile);
+                gameBoard.appendChild(tile);
+            }
+        }
+
+        // Fungsi untuk menempatkan bom secara acak
+        function placeMines(numMines) {
+            mines = [];
+            while (mines.length < numMines) {
+                const randomIndex = Math.floor(Math.random() * grid.length);
+                if (!mines.includes(randomIndex)) {
+                    mines.push(randomIndex);
+                }
+            }
+        }
+
+        // Fungsi yang dipanggil saat tile diklik
+        // Fungsi yang dipanggil saat tile diklik
+        function handleTileClick(event) {
+            if (!isGameActive) return;
+            const tile = event.target;
+            const index = parseInt(tile.dataset.index);
+
+            // Cegah klik berulang pada tile yang sudah diklik
+            if (tile.classList.contains('clicked')) return;
+            // Tandai tile sebagai sudah diklik
+            tile.classList.add('clicked');
+
+
+            if (mines.includes(index)) {
+                tile.classList.remove('bg-gray-300');
+                tile.classList.add('bg-red-500');
+                tile.innerHTML = '<i class="fas fa-bomb text-white text-xl"></i>';
+                revealAllTiles(false);
+            } else {
+                tile.classList.remove('bg-gray-300');
+                tile.classList.add('bg-green-400');
+                tile.innerHTML = '<i class="fas fa-gem text-white text-xl"></i>';
+                tilesClicked++;
+                updateMultiplier();
+                checkCashout();
+            }
+        }
+
+
+        // Fungsi untuk mengaktifkan tombol Cashout jika ada tile yang diklik
+        function checkCashout() {
+            if (tilesClicked > 0) {
+                cashoutButton.disabled = false;
+                cashoutButton.classList.remove('bg-gray-400', 'cursor-not-allowed');
+                cashoutButton.classList.add('bg-green-500', 'hover:bg-green-600', 'cursor-pointer');
+            }
+        }
+
+        // Fungsi untuk membuka semua tile saat permainan berakhir
+        function revealAllTiles(playerWon) {
+            isGameActive = false;
+            cashoutButton.classList.add('hidden');
+            placeBetButton.classList.remove('hidden');
+
+            grid.forEach((tile, index) => {
+                if (mines.includes(index)) {
+                    tile.classList.remove('bg-gray-300');
+                    tile.classList.add('bg-red-400');
+                    tile.innerHTML = '<i class="fas fa-bomb text-white text-xl"></i>';
+                } else {
+                    tile.classList.remove('bg-gray-300');
+                    tile.classList.add('bg-green-200');
+                    tile.innerHTML = '<i class="fas fa-gem text-white text-xl"></i>';
+                }
+            });
+
+            if (playerWon) {
+                winCount++;
+                const profit = betAmount * multiplier;
+                totalProfit += profit;
+                updateStats(true, profit);
+                showToast(`You won ${profit.toFixed(2)}$!`, 'success');
+            } else {
+                lossCount++;
+                totalProfit -= betAmount;
+                updateStats(false, betAmount);
+                showToast('You hit a mine!', 'error');
+            }
+
+            saveStatsToLocalStorage();
+        }
+
+        // Fungsi untuk memulai permainan
+        function startGame() {
+            betAmount = parseFloat(betAmountInput.value) || 0;
+            const numMines = parseInt(minesInput.value) || 3;
+
+            if (numMines > 24) {
+                showToast('Max number of mines is 24.', 'warning');
+                return;
+            }
+
+            if (betAmount > 0 && betAmount <= balance) {
+                createGrid();
+                placeMines(numMines);
+                isGameActive = true;
+                multiplier = 1.0;
+                updateMultiplier(); // Set multiplier awal
+                cashoutButton.disabled = true;
+                cashoutButton.classList.add('bg-gray-400', 'cursor-not-allowed');
+                cashoutButton.classList.remove('hidden');
+                placeBetButton.classList.add('hidden');
+                balance -= betAmount;
+                updateBalance();
+                saveStatsToLocalStorage();
+            } else {
+                showToast('Please enter a valid bet amount that is less than or equal to your balance.', 'warning');
+            }
+        }
+
+        // Update multiplier berdasarkan jumlah bom dan tile yang diklik
+        function updateMultiplier() {
+            const numMines = parseInt(minesInput.value) || 3;
+            const totalTiles = 25 - numMines;
+            const baseMultiplier = 1 + (numMines * 0.05); // Multiplier dasar berdasarkan jumlah bom
+            multiplier = baseMultiplier + (tilesClicked * baseMultiplier / totalTiles);
+            showToast(`Multiplier: ${multiplier.toFixed(2)}x`, 'info');
+        }
+
+        // Fungsi untuk menampilkan toast
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.classList.add('p-4', 'rounded-lg', 'shadow-lg', 'flex', 'justify-between', 'items-center', 'space-x-4', 'text-white', 'transition-all', 'duration-500', 'opacity-0', 'toast-slide-in');
+            
+            switch (type) {
+                case 'success':
+                    toast.classList.add('bg-green-500');
+                    break;
+                case 'error':
+                    toast.classList.add('bg-red-500');
+                    break;
+                case 'warning':
+                    toast.classList.add('bg-yellow-500');
+                    break;
+                default:
+                    toast.classList.add('bg-blue-500');
+            }
+
+            toast.innerHTML = `
+                <span>${message}</span>
+                <button class="ml-4 bg-white text-gray-800 p-1 rounded-full">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+
+            toast.querySelector('button').addEventListener('click', () => {
+                toast.remove();
+            });
+
+            setTimeout(() => {
+                toast.classList.add('opacity-100');
+            }, 100);  // Berikan waktu untuk render DOM
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0');
+                setTimeout(() => toast.remove(), 500);  // Fade out sebelum menghapus
+            }, 5000);
+
+            toastContainer.appendChild(toast);
+        }
+
+        // Update tampilan saldo
+        function updateBalance() {
+            balanceElement.textContent = balance.toFixed(2) + ' $';
+        }
+
+        // Update statistik
+        function updateStats(won, amount) {
+            winCountElement.textContent = winCount;
+            lossCountElement.textContent = lossCount;
+            profitElement.textContent = (totalProfit >= 0 ? '+' : '') + totalProfit.toFixed(2) + ' $';
+            profitElement.classList.remove('text-red-500', 'text-green-500');
+            if (totalProfit < 0) {
+                profitElement.classList.add('text-red-500');
+            } else {
+                profitElement.classList.add('text-green-500');
+            }
+        }
+
+        // Simpan statistik ke localStorage
+        function saveStatsToLocalStorage() {
+            localStorage.setItem('balance', balance.toFixed(2));
+            localStorage.setItem('winCount', winCount);
+            localStorage.setItem('lossCount', lossCount);
+            localStorage.setItem('profit', totalProfit.toFixed(2));
+        }
+
+        // Event listeners
+        placeBetButton.addEventListener('click', startGame);
+        cashoutButton.addEventListener('click', () => revealAllTiles(true));
+
+        // Inisialisasi dengan grid sudah terlihat
+        createGrid();
+        updateBalance();
+        updateStats();
+    });
+</script>
+
+</body>
+</html>
