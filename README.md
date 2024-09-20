@@ -44,6 +44,13 @@
 - **Added Sound Effect**
 - **Added On/Off Sound Effect**
 
+---
+
+## **Feature V1.4**
+
+- **Add Game: Mines and Crash**
+- **Now balance is save**
+
 ## **Technology Stack**
 
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-38B2AC?logo=tailwindcss&logoColor=white&style=for-the-badge)
