@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crash Game with Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .crash-text { color: red; }
+        .normal-text { color: black; }
+        .disabled-button { background-color: gray; }
+    </style>
+</head>
+<body>
+    <h1>Crash Game</h1>
+    <canvas id="crashChart" width="400" height="200"></canvas>
+    <div>
+        <p id="gameMessage" class="normal-text">Waiting for round to start...</p>
+        <p id="multiplierDisplay">1.00×</p>
+        <p id="joinMessage"></p>
+        <button id="actionButton" disabled>Place Bet</button>
+        <input type="number" id="betAmountInput" placeholder="Bet Amount">
+    </div>
+    <p>Balance: $<span id="balanceDisplay">100.00</span></p>
+    <p>Wins: <span id="winsDisplay">0</span></p>
+    <p>Losses: <span id="lossesDisplay">0</span></p>
+
+    <script>
+        const ctx = document.getElementById("crashChart").getContext("2d");
+        let chart, multiplier = 1.0, timeElapsed = 0, gameInterval, crashPoint, playerJoined = false, cashOut = false, crashed = false;
+        let balance = parseFloat(localStorage.getItem("balance")) || 100;
+        let wins = parseInt(localStorage.getItem("wins")) || 0;
+        let losses = parseInt(localStorage.getItem("losses")) || 0;
+        const actionButton = document.getElementById("actionButton");
+        const betAmountInput = document.getElementById("betAmountInput");
+        const multiplierDisplay = document.getElementById("multiplierDisplay");
+        const gameMessage = document.getElementById("gameMessage");
+        const joinMessage = document.getElementById("joinMessage");
+
+        function updateDisplays() {
+            document.getElementById("balanceDisplay").innerText = balance.toFixed(2);
+            document.getElementById("winsDisplay").innerText = wins;
+            document.getElementById("lossesDisplay").innerText = losses;
+        }
+
+        function createChart() {
+            chart = new Chart(ctx, {
+                type: "line",
+                data: {
+                    labels: ["0s"],
+                    datasets: [{
+                        label: "Multiplier",
+                        data: [1],
+                        borderColor: "rgb(75, 192, 192)",
+                        tension: 0.1,
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: { title: { display: true, text: "Time (s)" }},
+                        y: { title: { display: true, text: "Multiplier (×)" }, suggestedMax: 5 }
+                    }
+                }
+            });
+        }
+
+        function updateChart(time, multiplier) {
+            chart.data.labels.push(time);
+            chart.data.datasets[0].data.push(multiplier);
+            chart.update();
+        }
+
+        function startCountdown() {
+            gameMessage.classList.remove("crash-text");
+            gameMessage.classList.add("normal-text");
+            gameMessage.innerText = "Starting in 3 seconds...";
+            actionButton.disabled = true;
+            cashOut = false;
+            crashed = false;
+            multiplier = 1.0;
+            timeElapsed = 0;
+            crashPoint = getCrashPoint();
+            setTimeout(() => {
+                startGame();
+            }, 3000);
+        }
+
+        function startGame() {
+            gameMessage.innerText = "Round In Progress";
+            actionButton.innerText = "Cash Out";
+            actionButton.classList.add("disabled-button");
+            actionButton.disabled = false;
+
+            gameInterval = setInterval(() => {
+                timeElapsed++;
+                multiplier += 0.01 * (timeElapsed / 2);
+
+                if (!crashed) {
+                    // Logic for displaying multiplier capped at 4x, then incrementing after
+                    if (multiplier <= 4.0) {
+                        multiplierDisplay.innerText = `${multiplier.toFixed(2)}×`;
+                    } else {
+                        // Increment display manually after 4x (5x, 6x, etc.)
+                        let manualMultiplier = Math.min(Math.floor(multiplier), 5000);
+                        multiplierDisplay.innerText = `${manualMultiplier.toFixed(2)}×`;
+                    }
+
+                    updateChart(`${timeElapsed}s`, multiplier);
+                }
+
+                if (multiplier >= crashPoint || multiplier >= 5000) {
+                    crashGame();
+                }
+            }, 1000);
+        }
+
+        function crashGame() {
+            clearInterval(gameInterval);
+            crashed = true;
+            gameMessage.classList.add("crash-text");
+            gameMessage.classList.remove("normal-text");
+            gameMessage.innerText = `Crashed At ${multiplier.toFixed(2)}×`;
+
+            if (playerJoined && !cashOut) {
+                playerLoses();
+            }
+
+            actionButton.innerText = "Place Bet";
+            actionButton.classList.remove("disabled-button");
+            actionButton.disabled = false;
+            playerJoined = false;
+
+            setTimeout(() => {
+                startCountdown();
+            }, 5000);
+        }
+
+        function playerWins() {
+            cashOut = true;
+            const winningAmount = betAmount * multiplier;
+            balance += winningAmount;
+            wins++;
+            localStorage.setItem("balance", balance.toFixed(2));
+            localStorage.setItem("wins", wins);
+            updateDisplays();
+            joinMessage.innerText = `You Cashed Out At ${multiplier.toFixed(2)}×!`;
+        }
+
+        function playerLoses() {
+            cashOut = false;
+            losses++;
+            localStorage.setItem("losses", losses);
+            updateDisplays();
+            joinMessage.innerText = "You Lost!";
+        }
+
+        function getCrashPoint() {
+            return Math.random() * (50 - 1.5) + 1.5;
+        }
+
+        actionButton.addEventListener("click", () => {
+            if (!playerJoined) {
+                const betAmount = parseFloat(betAmountInput.value);
+                if (!isNaN(betAmount) && betAmount > 0 && betAmount <= balance) {
+                    playerJoined = true;
+                    balance -= betAmount;
+                    joinMessage.innerText = `You Joined With $${betAmount.toFixed(2)}`;
+                    actionButton.innerText = "Cash Out";
+                    actionButton.disabled = false;
+                } else {
+                    joinMessage.innerText = "Invalid Bet Amount!";
+                }
+            } else {
+                if (!cashOut && !crashed) {
+                    playerWins();
+                    actionButton.disabled = true;
+                }
+            }
+        });
+
+        createChart();
+        startCountdown();
+        updateDisplays();
+    </script>
+</body>
+</html>

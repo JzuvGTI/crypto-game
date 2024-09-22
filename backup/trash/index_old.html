@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATM Balance Card</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body class="bg-gray-100">
+    <style>
+        .click-area {
+            cursor: pointer;
+            color: gray;
+            text-align: center;
+            margin-top: 40px;
+            position: relative;
+        }
+
+        /* Animation for hand icon */
+        .click-area .fa-hand-pointer {
+            transition: transform 0.2s ease;
+        }
+
+        /* Animation when click happens */
+        .click-area.clicked .fa-hand-pointer {
+            transform: scale(1.3);
+        }
+
+        /* Reset after the animation */
+        .click-area.clicked .fa-hand-pointer.active {
+            transform: scale(1);
+        }
+
+        /* Mobile-Only and Rejection Message */
+        @media (min-width: 1024px) {
+            .mobile-only {
+                display: none;
+            }
+
+            .desktop-only {
+                display: block;
+                background-color: #F87171;
+                color: white;
+                font-size: 1.5rem;
+                text-align: center;
+                padding: 60px;
+                border-radius: 15px;
+                box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+                margin: 100px auto;
+                max-width: 600px;
+            }
+        }
+
+        @media (max-width: 1023px) {
+            .mobile-only {
+                display: block;
+            }
+
+            .desktop-only {
+                display: none;
+            }
+        }
+    </style>
+
+    <div class="container mx-auto">
+        <div class="mobile-only">
+            <div class="bg-gradient-to-r from-cyan-700 to-indigo-700 w-full rounded-bl-xl rounded-br-xl">
+                <!-- Ini adalah Backround Belakang dari card ATM dan Click Amount -->
+                <!-- Black Card Balance (ATM Style) -->
+                <div
+                    class="relative bg-gradient-to-r from-black to-gray-900 text-white rounded-xl p-6 shadow-2xl w-full max-w-sm md:max-w-md lg:max-w-lg mx-auto">
+                    <!-- Chip and Card Logo -->
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center space-x-2">
+                            <!-- Chip Icon -->
+                            <div class="bg-yellow-500 h-8 w-10 rounded-sm flex items-center justify-center">
+                                <i class="fas fa-sim-card text-white text-xl"></i>
+                            </div>
+                            <!-- Card Number -->
+                            <div class="text-lg tracking-widest">
+                                **** **** **** 7439
+                            </div>
+                        </div>
+                        <!-- Card Logo -->
+                        <div class="text-2xl">
+                            <i class="fab fa-cc-mastercard"></i>
+                        </div>
+                    </div>
+
+                    <!-- Card Background Overlay -->
+                    <div class="absolute inset-0 opacity-30 z-0">
+                        <img src="assets/world_map.svg" alt="minimal world map" class="h-full w-full object-cover">
+                    </div>
+
+                    <!-- Cardholder Info -->
+                    <div class="mt-6 z-10 relative">
+                        <div class="flex justify-between items-center">
+                            <!-- Balance Info -->
+                            <div>
+                                <div class="uppercase text-sm">Card Holder</div>
+                                <div class="text-xl font-semibold tracking-wider">John Doe</div>
+                            </div>
+                            <!-- Expiry Date -->
+                            <div class="text-sm">
+                                <div>Valid Thru</div>
+                                <div>05/26</div>
+                            </div>
+                        </div>
+
+                        <!-- Balance Amount -->
+                        <div class="mt-6 flex justify-between items-center">
+                            <div id="balance-amount" class="text-4xl font-bold tracking-tight">$0,00</div>
+                            <!-- Eye Icon for Show/Hide -->
+                            <i class="fas fa-eye cursor-pointer ml-3 text-lg" id="toggle-eye"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Per Click Amount -->
+                <div
+                    class="mt-4 bg-gray-300 bg-opacity-50 text-white text-center py-4 rounded-lg shadow-lg w-full max-w-sm md:max-w-md lg:max-w-lg mx-auto">
+                    $250,00 per click
+                </div>
+            </div>
+
+            <!-- Click Area -->
+            <div class="click-area" id="click-area">
+                <i class="fas fa-hand-pointer fa-3x"></i>
+                <div>Click in this area to earn money</div>
+            </div>
+
+            <!-- Sticky Footer -->
+            <footer class="bg-white shadow-inner w-full fixed bottom-0">
+                <div class="flex justify-around py-2 border-t">
+                    <!-- Investing -->
+                    <a href="investing.html" class="flex flex-col items-center text-gray-600 hover:text-blue-500">
+                        <i class="fas fa-chart-line text-xl"></i>
+                        <span class="text-xs">Investing</span>
+                    </a>
+                    <!-- Business -->
+                    <a href="#business" class="flex flex-col items-center text-gray-600 hover:text-blue-500">
+                        <i class="fas fa-city text-xl"></i>
+                        <span class="text-xs">Business</span>
+                    </a>
+                    <!-- Earnings -->
+                    <a href="dashboard.html" class="flex flex-col items-center text-blue-600 hover:text-blue-500">
+                        <i class="fas fa-dollar-sign text-xl"></i>
+                        <span class="text-xs">Earnings</span>
+                    </a>
+                    <!-- Items -->
+                    <a href="#items" class="flex flex-col items-center text-gray-600 hover:text-blue-500">
+                        <i class="fas fa-th-large text-xl"></i>
+                        <span class="text-xs">Items</span>
+                    </a>
+                    <!-- Profile -->
+                    <a href="#profile" class="flex flex-col items-center text-gray-600 hover:text-blue-500">
+                        <i class="fas fa-user text-xl"></i>
+                        <span class="text-xs">Profile</span>
+                    </a>
+                </div>
+            </footer>
+        </div>
+
+        <!-- Rejection Message for Desktop Users -->
+        <div class="desktop-only">
+            <h1>Access Denied</h1>
+            <p>This feature is available only on mobile devices. Please try again on a mobile device.</p>
+        </div>
+    </div>
+
+    <script>
+        // Variables
+        let balance = 0.00;
+        const balanceAmountElement = document.getElementById('balance-amount');
+        const toggleEyeElement = document.getElementById('toggle-eye');
+        const clickAreaElement = document.getElementById('click-area');
+        let isBalanceVisible = true;
+        let isClickable = true; // Status untuk melacak apakah elemen dapat diklik
+
+        // Function to format number with comma and dot
+        function formatBalance(balance) {
+            return balance.toLocaleString('de-DE', { style: 'currency', currency: 'USD' }).replace('.', ',').replace(',', '.');
+        }
+
+        // Function to toggle balance visibility
+        toggleEyeElement.addEventListener('click', function () {
+            isBalanceVisible = !isBalanceVisible;
+            if (isBalanceVisible) {
+                balanceAmountElement.innerText = formatBalance(balance);
+                toggleEyeElement.classList.replace('fa-eye-slash', 'fa-eye');
+            } else {
+                balanceAmountElement.innerText = '****';
+                toggleEyeElement.classList.replace('fa-eye', 'fa-eye-slash');
+            }
+        });
+
+        // Function to increment balance and trigger animation
+        clickAreaElement.addEventListener('click', function () {
+            if (isClickable) {
+                // Set status tidak dapat diklik
+                isClickable = false;
+
+                // Increment balance
+                balance += 250;
+                balanceAmountElement.innerText = formatBalance(balance);
+
+                // Add 'clicked' class for animation
+                clickAreaElement.classList.add('clicked');
+
+                // Reset the animation after 200ms
+                setTimeout(function () {
+                    clickAreaElement.classList.remove('clicked');
+                }, 200);
+
+                // Aktifkan kembali klik setelah delay tertentu (misalnya, 500ms)
+                setTimeout(function () {
+                    isClickable = true;
+                }, 200);
+            }
+        });
+    </script>
+
+</body>
+
+</html>

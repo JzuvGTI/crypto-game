@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transfer Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .number-pad button {
+            transition: background-color 0.2s ease;
+        }
+
+        .number-pad button:hover {
+            background-color: #e2e8f0;
+        }
+
+        .input-field {
+            transition: border-color 0.2s ease;
+        }
+
+        .input-field:focus {
+            border-color: #38bdf8;
+        }
+
+        .error-border {
+            border-color: #ef4444 !important;
+        }
+
+        .error-text {
+            color: #ef4444;
+            display: none;
+        }
+
+        .show-error {
+            display: block;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            max-height: 70%;
+            transition: max-height 0.3s ease, transform 0.3s ease;
+            transform: translateY(100%);
+            z-index: 1000;
+        }
+
+        .popup.open {
+            display: block;
+            transform: translateY(0);
+        }
+
+        .popup-content {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .resize-handle {
+            width: 100%;
+            height: 10px;
+            background: #e2e8f0;
+            cursor: ns-resize;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+
+        .popup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .popup-header i {
+            cursor: pointer;
+            font-size: 20px;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 h-screen flex flex-col justify-between">
+
+    <!-- Header -->
+    <div class="flex justify-between items-center p-6">
+        <h1 class="text-xl font-semibold">Transfer</h1>
+        <a href="transfer.html"><i class="fas fa-times text-gray-500 cursor-pointer"></i></a>
+    </div>
+
+    <!-- Recipient Info -->
+    <div class="flex items-center justify-between px-6 mb-4">
+        <div class="flex items-center">
+            <div class="bg-blue-500 rounded-full h-10 w-10 flex justify-center items-center text-white font-bold">SF
+            </div>
+            <div class="ml-3">
+                <p class="text-sm font-semibold">Muhamad Aldiyansyah</p>
+                <p class="text-xs text-gray-500">TPR1235687234</p>
+            </div>
+        </div>
+        <a href="transfer.html" class="text-blue-600 text-sm">Ganti</a>
+    </div>
+
+    <!-- Card that contains Amount Section and Notes Section -->
+    <div class="bg-white rounded-lg shadow-lg mx-6 p-6 mb-6">
+        <!-- Amount Input Section -->
+        <div class="mb-2">
+            <input type="text" id="amountInput"
+                class="w-full text-center text-3xl font-bold bg-gray-100 p-5 rounded-xl outline-none focus:ring-2 focus:ring-blue-300"
+                value="Rp " oninput="formatInput()" />
+        </div>
+        <!-- Error message -->
+        <div id="errorMsg" class="text-sm error-text">
+            Maximum input Rp20,000,000
+        </div>
+
+        <!-- Notes Section -->
+        <div class="bg-gray-50 p-3 rounded-lg flex items-center border border-gray-200 input-field">
+            <i class="fas fa-comment-dots text-gray-500"></i>
+            <input type="text" placeholder="Buat burger atau mie?"
+                class="ml-2 bg-transparent outline-none text-sm w-full" id="notesInput"/>
+        </div>
+    </div>
+
+    <!-- Number Pad Section -->
+    <div id="numberPad" class="grid grid-cols-3 gap-3 text-center mx-6 mb-6 number-pad">
+        <!-- First Row -->
+        <button class="bg-gray-200 py-3 rounded-lg text-lg font-semibold" onclick="appendNumber('1')">1</button>
+        <button class="bg-gray-200 py-3 rounded-lg text-lg font-semibold" onclick="appendNumber('2')">2</button>
+        <button class="bg-gray-200 py-3 rounded-lg text-lg font-semibold" onclick="appendNumber('3')">3</button>
+
+        <!-- Second Row -->
+        <button class="bg-gray-200 py-3 rounded-lg text-lg font-semibold" onclick="appendNumber('4')">4</button>
+        <button class="bg-gray-200 py-3 rounded-lg text-lg font-semibold" onclick="appendNumber('5')">5</button>
+        <button class="bg-gray-200 py-3 rounded-lg text-lg font-semibold" onclick="appendNumber('6')">6</button>
+
+        <!-- Third Row -->
+        <button class="bg-gray-200 py-3 rounded-lg text-lg font-semibold" onclick="appendNumber('7')">7</button>
+        <button class="bg-gray-200 py-3 rounded-lg text-lg font-semibold" onclick="appendNumber('8')">8</button>
+        <button class="bg-gray-200 py-3 rounded-lg text-lg font-semibold" onclick="appendNumber('9')">9</button>
+
+        <!-- Fourth Row -->
+        <button class="bg-gray-200 py-3 rounded-lg text-lg font-semibold" onclick="appendNumber('0')">0</button>
+        <button class="bg-gray-200 py-3 rounded-lg text-lg font-semibold" onclick="appendNumber(',')">,</button>
+        <button class="bg-gray-200 py-3 rounded-lg text-lg font-semibold" onclick="deleteNumber()">
+            <i class="fas fa-backspace"></i>
+        </button>
+    </div>
+
+    <!-- Review Transfer Button -->
+    <div class="px-6 mb-6">
+        <button id="reviewTransferButton" class="bg-green-500 text-white py-3 w-full rounded-lg text-lg font-semibold shadow-lg">Review Transfer</button>
+    </div>
+
+    <!-- Popup Confirmation -->
+    <div id="confirmationPopup" class="popup">
+        <div class="popup-content">
+            <div class="popup-header">
+                <h2 class="text-xl font-semibold">Confirm Transfer</h2>
+                <i class="fas fa-times" id="closePopup"></i>
+            </div>
+            <div class="mt-4">
+                <p class="text-sm mb-2"><strong>Username:</strong> S******* F********</p>
+                <p class="text-sm mb-2"><strong>Amount:</strong> <span id="confirmationAmount">Rp 0</span></p>
+                <p class="text-sm mb-2"><strong>Notes:</strong> <span id="confirmationNotes">No notes</span></p>
+                <div class="flex mt-4">
+                    <button id="confirmButton" class="bg-green-500 text-white py-2 px-4 rounded-lg mr-2">Transfer</button>
+                    <button id="cancelButton" class="bg-gray-500 text-white py-2 px-4 rounded-lg">Cancel</button>
+                </div>
+            </div>
+            <div class="resize-handle"></div>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript
+        let amountInput = document.getElementById('amountInput');
+        let errorMsg = document.getElementById('errorMsg');
+        let numberPad = document.getElementById('numberPad');
+        const MAX_AMOUNT = 20000000; // Rp 20 juta
+
+        function formatInput() {
+            let cursorPosition = amountInput.selectionStart;
+            let valueBeforeFormat = amountInput.value.replace(/[^0-9,]/g, '');
+
+            amountInput.value = formatNumber(amountInput.value);
+
+            let valueAfterFormat = amountInput.value.replace(/[^0-9,]/g, '');
+            if (valueBeforeFormat.length > valueAfterFormat.length) {
+                cursorPosition -= valueBeforeFormat.length - valueAfterFormat.length;
+            }
+            amountInput.setSelectionRange(cursorPosition, cursorPosition);
+
+            // Check if the input exceeds Rp 20 million
+            checkAmountLimit();
+        }
+
+        function formatNumber(numStr) {
+            let num = numStr.replace(/[^\d,]/g, '');
+            let formatted = num.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            return 'Rp ' + formatted;
+        }
+
+        function appendNumber(number) {
+            if (amountInput.value === 'Rp ') {
+                amountInput.value = 'Rp ' + number;
+            } else {
+                amountInput.value = formatNumber(amountInput.value + number);
+            }
+            checkAmountLimit();
+        }
+
+        function deleteNumber() {
+            if (amountInput.value.length > 2) {
+                amountInput.value = formatNumber(amountInput.value.slice(0, -1));
+            }
+            checkAmountLimit();
+        }
+
+        function checkAmountLimit() {
+            let amount = parseInt(amountInput.value.replace(/[^0-9]/g, ''), 10);
+
+            if (amount > MAX_AMOUNT) {
+                // Show error message and change border to red
+                errorMsg.classList.add('show-error');
+                numberPad.classList.add('error-border');
+            } else {
+                // Hide error message and reset border
+                errorMsg.classList.remove('show-error');
+                numberPad.classList.remove('error-border');
+            }
+        }
+
+        // Event listener for Review Transfer button
+        document.getElementById('reviewTransferButton').addEventListener('click', function () {
+            // Update confirmation details
+            document.getElementById('confirmationAmount').textContent = amountInput.value;
+            document.getElementById('confirmationNotes').textContent = document.getElementById('notesInput').value || 'No notes';
+            
+            // Show the popup
+            document.getElementById('confirmationPopup').classList.add('open');
+        });
+
+        // Event listener for Cancel button
+        document.getElementById('cancelButton').addEventListener('click', function () {
+            // Hide the popup
+            document.getElementById('confirmationPopup').classList.remove('open');
+        });
+
+        // Event listener for Confirm button
+        document.getElementById('confirmButton').addEventListener('click', function () {
+            // Add your confirm action here
+            alert('Transfer confirmed!'); // Example action
+            document.getElementById('confirmationPopup').classList.remove('open');
+        });
+
+        // Event listener for close button in popup
+        document.getElementById('closePopup').addEventListener('click', function () {
+            // Hide the popup
+            document.getElementById('confirmationPopup').classList.remove('open');
+        });
+
+        // Make the popup resizable
+        let resizeHandle = document.querySelector('.resize-handle');
+        let popup = document.querySelector('.popup-content');
+        let isResizing = false;
+        
+        resizeHandle.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            isResizing = true;
+            document.addEventListener('mousemove', handleResize);
+            document.addEventListener('mouseup', () => {
+                isResizing = false;
+                document.removeEventListener('mousemove', handleResize);
+            });
+        });
+        
+        function handleResize(e) {
+            if (isResizing) {
+                let newHeight = window.innerHeight - e.clientY;
+                popup.style.maxHeight = `${newHeight}px`;
+            }
+        }
+    </script>
+
+</body>
+
+</html>

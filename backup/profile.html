@@ -1,0 +1,231 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+</head>
+<style>
+
+    /* Mobile-Only and Rejection Message */
+    @media (min-width: 1024px) {
+        .mobile-only {
+            display: none;
+        }
+
+        .desktop-only {
+            display: block;
+            background-color: #F87171;
+            color: white;
+            font-size: 1.5rem;
+            text-align: center;
+            padding: 60px;
+            border-radius: 15px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+            margin: 100px auto;
+            max-width: 600px;
+        }
+    }
+
+    @media (max-width: 1023px) {
+        .mobile-only {
+            display: block;
+        }
+
+        .desktop-only {
+            display: none;
+        }
+    }
+</style>
+<body class="bg-gray-100">
+
+
+    
+    <div class="h-56 w-full bg-gray-50 flex justify-center">
+        <div class="h-56 w-72 absolute flex justify-center items-center">
+            <img class="object-cover h-20 w-20 rounded-full shadow drop-shadow-lg"
+                src="https://images.unsplash.com/photo-1484608856193-968d2be4080e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2134&q=80"
+                alt="" />
+        </div>
+        <div class="h-64 w-full bg-blue-500 rounded-b-3xl shadow-md sm:w-full sm:mx-0">
+            <div class="h-1/2 w-full flex justify-between items-baseline px-3 py-1">
+                <a href="dashboard.html" class="text-white drop-shadow-md hover:drop-shadow-md text-3xl">
+                    <i class="fas fa-arrow-left"></i>    
+                </a>
+            </div>
+
+            <div class="bg-white h-1/2 w-full rounded-3xl flex flex-col justify-around items-center">
+                <div class="w-full h-1/2 flex justify-between items-center px-3 pt-2">
+                    <div class="flex flex-col justify-center items-center">
+                        <h1 class="text-gray-500 text-xs">Balance</h1>
+                        <h1 class="text-gray-600 text-sm">$0,00</h1>
+                    </div>
+                    <div class="flex flex-col justify-center items-center">
+                        <h1 class="text-gray-500 text-xs">Spent</h1>
+                        <h1 class="text-gray-600 text-sm">$0,00</h1>
+                    </div>
+                </div>
+                <div class="w-full h-1/2 flex flex-col justify-center items-center mb-10">
+                    <h1 class="text-gray-700 font-bold">Raihan Hariyanto Putra.</h1>
+                    <div class="flex justify-between items-center mt-4 space-x-20">
+                        <!-- Button with icons and captions -->
+                        <div class="flex flex-col items-center">
+                            <a href="transfer.html" class="flex items-center justify-center w-8 h-8 border-2 border-blue-600 text-blue-600 rounded-full hover:bg-blue-100 transition duration-300">
+                                <i class="fas fa-paper-plane text-lg"></i>
+                            </a>
+                            <p class="text-sm text-gray-700 mt-1">Kirim</p>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <a href="#" class="flex items-center justify-center w-8 h-8 border-2 border-blue-600 text-blue-600 rounded-full hover:bg-blue-100 transition duration-300">
+                                <i class="fas fa-plus-circle text-lg"></i>
+                            </a>
+                            <p class="text-sm text-gray-700 mt-1">Deposit</p>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <a href="#" class="flex items-center justify-center w-8 h-8 border-2 border-blue-600 text-blue-600 rounded-full hover:bg-blue-100 transition duration-300">
+                                <i class="fas fa-history text-lg"></i>
+                            </a>
+                            <p class="text-sm text-gray-700 mt-1">History</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Content -->
+    <div class="max-w mx-2 bg-white shadow drop-shadow rounded-lg mt-10 p-6 mb-14">
+        <h2 class="text-xl font-semibold mb-4">Portfolio</h2>
+    
+        <div class="flex justify-between items-center">
+            <h3 class="text-2xl font-bold">Fortune</h3>
+            <h3 class="text-3xl font-bold text-gray-800">$20,5 M</h3>
+        </div>
+    
+        <!-- Progress Bar -->
+        <div class="w-full h-2 bg-gray-200 rounded-full my-4 relative">
+            <div class="h-2 bg-blue-600 rounded-l-full" style="width: 47%"></div>
+            <div class="h-2 bg-red-500 absolute top-0 left-[47%]" style="width: 4.3%"></div>
+            <div class="h-2 bg-yellow-400 absolute top-0 left-[51.3%]" style="width: 0.1%"></div>
+            <div class="h-2 bg-purple-500 absolute top-0 left-[51.4%]" style="width: 16.6%"></div>
+            <div class="h-2 bg-teal-500 absolute top-0 left-[68%]" style="width: 30.7%"></div>
+        </div>
+    
+        <!-- Information Section -->
+        <div class="mt-4 space-y-3">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <span class="w-4 h-4 bg-blue-600 rounded-full inline-block"></span>
+                    <span class="text-gray-700">Balance</span>
+                </div>
+                <span class="font-medium text-gray-700">$9,8 M</span>
+            </div>
+    
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <span class="w-4 h-4 bg-red-500 rounded-full inline-block"></span>
+                    <span class="text-gray-700">Businesses</span>
+                </div>
+                <span class="font-medium text-gray-700">$883,0k</span>
+            </div>
+    
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <span class="w-4 h-4 bg-yellow-400 rounded-full inline-block"></span>
+                    <span class="text-gray-700">Shares</span>
+                </div>
+                <span class="font-medium text-gray-700">$303,09</span>
+            </div>
+    
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <span class="w-4 h-4 bg-purple-500 rounded-full inline-block"></span>
+                    <span class="text-gray-700">Real Estate</span>
+                </div>
+                <span class="font-medium text-gray-700">$3,4 M</span>
+            </div>
+    
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <span class="w-4 h-4 bg-teal-500 rounded-full inline-block"></span>
+                    <span class="text-gray-700">Vehicle</span>
+                </div>
+                <span class="font-medium text-gray-700">$61,500,00</span>
+            </div>
+    
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <span class="w-4 h-4 bg-gray-300 rounded-full inline-block"></span>
+                    <span class="text-gray-700">Collections</span>
+                </div>
+                <span class="font-medium text-gray-700">$0,00</span>
+            </div>
+    
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <span class="w-4 h-4 bg-green-500 rounded-full inline-block"></span>
+                    <span class="text-gray-700">Cryptocurrencies, NFT</span>
+                </div>
+                <span class="font-medium text-gray-700">$6,3 M</span>
+            </div>
+        </div>
+    </div>
+    <!-- Sticky Footer -->
+    <footer class="bg-white shadow-inner w-full fixed bottom-0">
+        <div class="flex justify-around py-2 border-t">
+            <!-- Investing -->
+            <a href="investing.html" class="flex flex-col items-center text-gray-600 hover:text-blue-500">
+                <i class="fas fa-chart-line text-xl"></i>
+                <span class="text-xs">Investing</span>
+            </a>
+            <!-- Sticky Footer -->
+        <footer class="bg-white shadow-inner w-full fixed bottom-0">
+            <div class="flex justify-around py-2 border-t">
+                <!-- Investing -->
+                <a href="investing.html" class="flex flex-col items-center text-gray-600 hover:text-blue-500">
+                    <i class="fas fa-chart-line text-xl"></i>
+                    <span class="text-xs">Investing</span>
+                </a>
+                <!-- Mines Gambling -->
+                <a href="mines.html" class="flex flex-col items-center text-gray-600 hover:text-blue-500">
+                    <i class="fas fa-bomb text-xl"></i> <!-- Icon of a bomb to represent Mines Gambling -->
+                    <span class="text-xs">Mines</span>
+                </a>
+                <!-- Earnings -->
+                <a href="dashboard.html" class="flex flex-col items-center text-blue-600 hover:text-blue-500">
+                    <i class="fas fa-dollar-sign text-xl"></i>
+                    <span class="text-xs">Earnings</span>
+                </a>
+                <!-- Gambling -->
+                <a href="crash-game.html" class="flex flex-col items-center text-gray-600 hover:text-blue-500">
+                    <i class="fas fa-chart-line text-xl"></i>
+                    <span class="text-xs">Gambling</span>
+                </a>
+                <!-- Profile -->
+                <a href="profile.html" class="flex flex-col items-center text-gray-600 hover:text-blue-500">
+                    <i class="fas fa-user text-xl"></i>
+                    <span class="text-xs">Profile</span>
+                </a>
+            </div>
+        </footer>
+            <!-- Earnings -->
+            <a href="dashboard.html" class="flex flex-col items-center text-gray-600 hover:text-blue-500">
+                <i class="fas fa-dollar-sign text-xl"></i>
+                <span class="text-xs">Earnings</span>
+            </a>
+            <a href="crash-game.html" class="flex flex-col items-center text-gray-600 hover:text-blue-500">
+                <i class="fas fa-chart-line text-xl"></i>
+                <span class="text-xs">Gambling</span>
+            </a>
+            <!-- Profile -->
+            <a href="profile.html" class="flex flex-col items-center text-blue-600 hover:text-blue-500">
+                <i class="fas fa-user text-xl"></i>
+                <span class="text-xs">Profile</span>
+            </a>
+        </div>
+    </footer>
+</body>
+</html>

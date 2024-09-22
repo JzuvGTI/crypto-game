@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dice Game Chart</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-1ycn6IcaQQ40/MKBv2W4Rhis/20xM011870+ZAr3r/VSzbgxL7iXoRm3J8uN/hEZk1mt1yjXtL+lL11aGPoh2uO"
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="bg-gray-900 text-white font-sans">
+    <div class="flex justify-between items-center p-4">
+        <div class="flex items-center">
+            <h1 class="text-2xl font-bold mr-4">G<i class="fas fa-dice-d6 dice-icon"></i>D</h1>
+            <p class="text-lg font-medium">Dice Game</p>
+        </div>
+        <div class="flex">
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4">Sign In</button>
+            <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Register</button>
+        </div>
+    </div>
+
+    <div class="container mx-auto px-4 py-6">
+        <div class="flex justify-around items-center mb-4">
+            <button class="bg-gray-800 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-2">1.00x</button>
+            <button class="bg-gray-800 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-2">1.00x</button>
+            <button class="bg-gray-800 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-2">1.00x</button>
+            <button class="bg-gray-800 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-2">1.02x</button>
+            <button class="bg-gray-800 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-2">1.79x</button>
+            <button class="bg-gray-800 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">1.39x</button>
+        </div>
+
+        <div class="bg-gray-800 p-4 rounded">
+            <div class="flex justify-between items-center mb-4">
+                <div class="flex items-center">
+                    <input type="checkbox" id="fair" class="mr-2">
+                    <label for="fair" class="font-medium">Provably Fair</label>
+                </div>
+                <div class="flex items-center">
+                    <i class="fas fa-cog mr-2"></i>
+                    <label for="settings" class="font-medium">Settings</label>
+                </div>
+            </div>
+
+            <!-- Chart.js Container -->
+            <div class="relative">
+                <canvas id="diceChart" class="w-full h-64"></canvas>
+            </div>
+        </div>
+
+        <div class="bg-gray-800 p-4 rounded mt-4">
+            <h2 class="text-xl font-bold mb-4">Bet Amount</h2>
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <i class="fas fa-money-bill-wave mr-2"></i>
+                    <input type="text"
+                        class="bg-gray-700 border border-gray-600 text-white font-medium py-2 px-4 rounded"
+                        value="0.10">
+                </div>
+                <div class="flex items-center">
+                    <button class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded mr-2">1/2</button>
+                    <button class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded">2x</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="fixed bottom-0 left-0 right-0 p-4 bg-gray-800 flex justify-around items-center">
+        <button class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded"><i class="fas fa-comment-dots"></i></button>
+        <button class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded"><i class="fas fa-wallet"></i></button>
+        <button class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded"><i class="fas fa-bars"></i></button>
+    </div>
+
+    <!-- Chart.js Script -->
+    <script>
+        var ctx = document.getElementById('diceChart').getContext('2d');
+
+        var diceChart = new Chart(ctx, {
+            type: 'line', // We're creating a line chart to form the triangle
+            data: {
+                labels: ['0s', '2s', '4s', '6s', '8s'], // X-axis labels
+                datasets: [{
+                    label: 'Multiplier',
+                    data: [1.0, 1.2, 1.4, 1.6, 1.8, 2.0], // Data points to create the triangle shape
+                    backgroundColor: 'rgba(59, 130, 246, 0.5)', // Blue fill
+                    borderColor: 'rgba(59, 130, 246, 1)', // Blue border
+                    fill: true, // Fill the area under the line
+                    borderWidth: 2,
+                    pointBackgroundColor: '#fff',
+                    pointBorderColor: '#3B82F6',
+                    pointRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        min: 1.0,
+                        max: 2.0,
+                        ticks: {
+                            stepSize: 0.2,
+                            color: '#fff'
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            color: '#fff'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        backgroundColor: '#3B82F6',
+                        bodyColor: '#fff'
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

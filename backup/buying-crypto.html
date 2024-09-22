@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bitcoin Price</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-white text-gray-900">
+
+    <!-- Back Button and Header Section -->
+    <div class="p-4 flex items-center">
+        <a href="investing.html#crypto">
+            <i class="fas fa-arrow-left text-2xl"></i>
+        </a>
+        <div class="flex-1 flex items-center justify-center space-x-2">
+            <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png" alt="Bitcoin" class="w-10 h-10">
+            <h1 class="text-2xl font-semibold">Bitcoin</h1>
+        </div>
+        <!-- This space will ensure the back button is on the left, and the logo/heading is centered -->
+    </div>
+
+    <!-- Price Section -->
+    <div class="p-4 text-center">
+        <h2 class="text-5xl font-bold">$35,361.09</h2>
+        <p class="text-green-500 text-lg font-semibold mt-2">+ $96.35 (0.27%)</p>
+    </div>
+
+    <!-- Chart Section -->
+    <div class="p-4">
+        <canvas id="priceChart" class="w-full h-64"></canvas>
+    </div>
+
+    <!-- Buy Button -->
+    <div class="px-4">
+        <button class="bg-blue-600 text-white text-lg font-semibold w-full py-3 rounded-lg">Buy</button>
+    </div>
+
+    <!-- Details Section -->
+    <div class="p-4 bg-white mt-4 shadow-sm rounded-lg">
+        <h3 class="text-lg font-semibold">Details</h3>
+        <div class="mt-2">
+            <p class="text-gray-500">Cryptocurrency Capitalization</p>
+            <p class="text-2xl font-bold">$675,954,167,011.90</p>
+        </div>
+        <div class="mt-4">
+            <p class="text-gray-500">Available for purchase</p>
+            <p class="bg-gray-100 p-3 rounded-lg text-xl">19,115,761.9999 BTC</p>
+        </div>
+    </div>
+
+    <!-- Chart.js Script for the Price Trend -->
+    <script>
+        const ctx = document.getElementById('priceChart').getContext('2d');
+        const priceChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['06.16', '06.40', '07.05', '07.29', '07.53'],
+                datasets: [{
+                    label: 'Bitcoin Price',
+                    data: [23088.38, 27886.51, 32684.63, 37482.76, 35361.09],
+                    backgroundColor: 'rgba(75, 192, 192, 0.1)',
+                    borderColor: '#4CAF50',
+                    borderWidth: 2,
+                    fill: true,
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        ticks: {
+                            callback: function (value, index, ticks) {
+                                return value.toLocaleString(); // Format y-axis with commas
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+    </script>
+
+</body>
+
+</html>
