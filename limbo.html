@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Limbo</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<style>
+    /* Styles for modal */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+        justify-content: center;
+        align-items: center;
+        z-index: 1000; /* On top of other content */
+    }
+    .modal-content {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        width: 300px;
+        max-width: 90%; /* Responsive */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    .no-scrollbar {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+</style>
+<body class="bg-gray-200 flex items-center justify-center min-h-screen">
+
+    <div class="flex justify-center items-start space-x-8 mb-10">
+        <!-- Game Container -->
+        <div class="bg-white p-6 rounded-lg shadow-lg w-screen" id="game">
+            <div id="history" class="flex justify-between mb-4 overflow-x-auto no-scrollbar"></div>
+            <div id="currentMultiplier" class="text-5xl font-bold text-center mb-4 text-black">
+                1.00×
+            </div>
+            <div class="bg-gray-200 p-4 rounded-lg mb-4">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-black">Target Multiplier</span>
+                    <span class="text-black">Win Chance</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <input type="number" id="targetMultiplier" class="bg-gray-300 text-black text-center w-1/2 p-2 rounded-lg" value="2.00">
+                    <span class="text-black mx-2">X</span>
+                    <input type="number" id="winChance" class="bg-gray-300 text-black text-center w-1/2 p-2 rounded-lg" value="49.5">
+                    <span class="text-black ml-2">%</span>
+                </div>
+            </div>
+            <div class="bg-gray-200 p-4 rounded-lg mb-4">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-black">Bet Amount</span>
+                    <span class="text-black">$0.00</span>
+                </div>
+                <div class="flex items-center mb-2">
+                    <input type="number" id="betAmount" class="bg-gray-300 text-black text-center w-full p-2 rounded-lg" value="0.00">
+                    <i class="fas fa-dollar-sign text-green-500 ml-2"></i> <!-- Dollar sign icon -->
+                </div>
+                <div class="flex justify-between">
+                    <button class="bg-gray-500 text-white px-4 py-2 rounded-lg" id="halfBet">
+                        <i class="fas fa-minus-circle text-white"></i> ½
+                    </button>
+                    <button class="bg-gray-500 text-white px-4 py-2 rounded-lg" id="doubleBet">
+                        <i class="fas fa-plus-circle text-white"></i> 2×
+                    </button>
+                </div>
+            </div>
+            <button class="bg-green-500 text-white w-full py-3 rounded-lg mb-4" id="betButton">
+                <i class="fas fa-gavel text-white"></i> Bet
+            </button>
+            <button class="bg-blue-800 text-white w-full py-2 rounded-lg mb-4" id="statisticWinButton">
+                <i class="fas fa-chart-line text-white"></i> Statistic Wins
+            </button>
+            <div class="bg-gray-200 p-4 rounded-lg">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-black">Profit on Win</span>
+                    <span class="text-black">$0.00</span>
+                </div>
+                <div class="flex items-center">
+                    <input type="text" id="profit" class="bg-gray-300 text-black text-center w-full p-2 rounded-lg" readonly value="0.00">
+                    <i class="fas fa-dollar-sign text-green-500 ml-2"></i> <!-- Dollar sign icon -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Player Profile Modal -->
+    <div class="modal" id="playerProfile">
+        <div class="modal-content">
+            <div class="text-center mb-4">
+                <h2 class="text-xl font-semibold text-gray-800">Player Profile</h2>
+            </div>
+            
+            <!-- Balance -->
+            <div class="flex items-center justify-between py-3">
+                <div class="flex items-center">
+                    <i class="fas fa-wallet text-green-500 text-xl"></i>
+                    <span class="ml-3 text-gray-700 font-semibold">Balance (USD)</span>
+                </div>
+                <span id="balance" class="text-gray-900 font-bold">$0.00</span>
+            </div>
+
+            <!-- Profit -->
+            <div class="flex items-center justify-between py-3">
+                <div class="flex items-center">
+                    <i class="fas fa-dollar-sign text-blue-500 text-xl"></i>
+                    <span class="ml-3 text-gray-700 font-semibold">Profit</span>
+                </div>
+                <span id="profileProfit" class="text-gray-900 font-bold">$0.00</span>
+            </div>
+
+            <!-- Win Count -->
+            <div class="flex items-center justify-between py-3">
+                <div class="flex items-center">
+                    <i class="fas fa-trophy text-yellow-500 text-xl"></i>
+                    <span class="ml-3 text-gray-700 font-semibold">Win Count</span>
+                </div>
+                <span id="winCount" class="text-gray-900 font-bold">0</span>
+            </div>
+
+            <!-- Lose Count -->
+            <div class="flex items-center justify-between py-3">
+                <div class="flex items-center">
+                    <i class="fas fa-times-circle text-red-500 text-xl"></i>
+                    <span class="ml-3 text-gray-700 font-semibold">Lose Count</span>
+                </div>
+                <span id="loseCount" class="text-gray-900 font-bold">0</span>
+            </div>
+
+            <!-- Total Games -->
+            <div class="text-center mt-6">
+                <button class="w-full py-2 px-4 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500" id="closePopupButton">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- Sticky Footer -->
+    <footer class="bg-white shadow-inner w-full fixed bottom-0">
+        <div class="flex justify-around py-2 border-t">
+            <!-- Investing -->
+            <a href="investing.html" class="flex flex-col items-center text-gray-600 hover:text-blue-500">
+                <i class="fas fa-chart-line text-xl"></i>
+                <span class="text-xs">Investing</span>
+            </a>
+            <!-- Mines Gambling -->
+            <a href="#mines-gambling" class="flex flex-col items-center text-gray-600 hover:text-blue-500">
+                <i class="fas fa-bomb text-xl"></i> <!-- Icon of a bomb to represent Mines Gambling -->
+                <span class="text-xs">Mines</span>
+            </a>
+
+            <!-- Earnings -->
+            <a href="dashboard.html" class="flex flex-col items-center text-gray-600 hover:text-blue-500">
+                <i class="fas fa-dollar-sign text-xl"></i>
+                <span class="text-xs">Earnings</span>
+            </a>
+            <!-- Gambling -->
+            <a href="crash-game.html" class="flex flex-col items-center text-gray-600 hover:text-blue-500">
+                <i class="fas fa-chart-line text-xl"></i>
+                <span class="text-xs">Gambling</span>
+            </a>
+            <!-- Limbo -->
+            <a href="limbo.html" class="flex flex-col items-center text-blue-600 hover:text-blue-500">
+                <i class="fas fa-arrow-up text-xl"></i> <!-- Arrow up icon -->
+                <span class="text-xs">Limbo</span>
+            </a>
+
+            <!-- Profile -->
+            <a href="profile.html" class="flex flex-col items-center text-gray-600 hover:text-blue-500">
+                <i class="fas fa-user text-xl"></i>
+                <span class="text-xs">Profile</span>
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize balance, profit, win count, and lose count from localStorage
+        let balance = parseFloat(localStorage.getItem('balance')) || 100.00;
+        let profit = parseFloat(localStorage.getItem('profit')) || 0.00;
+        let winCount = parseInt(localStorage.getItem('winCount')) || 0;
+        let loseCount = parseInt(localStorage.getItem('loseCount')) || 0;
+
+        // Update profile UI
+        document.getElementById('balance').textContent = `$${balance.toFixed(2)}`;
+        document.getElementById('profileProfit').textContent = `$${profit.toFixed(2)}`;
+        document.getElementById('winCount').textContent = winCount;
+        document.getElementById('loseCount').textContent = loseCount;
+        // document.getElementById('totalGames').textContent = winCount + loseCount;
+
+        const betButton = document.getElementById('betButton');
+        const targetMultiplierInput = document.getElementById('targetMultiplier');
+        const betAmountInput = document.getElementById('betAmount');
+        const profitInput = document.getElementById('profit');
+        const currentMultiplierElement = document.getElementById('currentMultiplier');
+        const historyElement = document.getElementById('history');
+        const halfBetButton = document.getElementById('halfBet');
+        const doubleBetButton = document.getElementById('doubleBet');
+        const statisticWinButton = document.getElementById('statisticWinButton');
+        const playerProfile = document.getElementById('playerProfile');
+
+        let isBetting = false;
+        let history = [];
+
+        betButton.addEventListener('click', () => {
+            if (isBetting) return;
+
+            isBetting = true;
+            const targetMultiplier = parseFloat(targetMultiplierInput.value);
+            const betAmount = parseFloat(betAmountInput.value);
+
+            const randomChance = Math.random();
+            let randomMultiplier = 1;
+
+            // Mengatur probabilitas multiplier, lebih sulit untuk > 1.99x
+            if (randomChance < 0.50) {
+                randomMultiplier = (1 + Math.random() * 0.99).toFixed(2);
+            } else if (randomChance < 0.85) {
+                randomMultiplier = (2 + Math.random() * 3).toFixed(2);
+            } else {
+                randomMultiplier = Math.min((5 + Math.random() * 994), 999).toFixed(2);
+            }
+
+            currentMultiplierElement.textContent = randomMultiplier + '×';
+
+            // Update profit dan balance
+            if (randomMultiplier >= targetMultiplier) {
+                profit += betAmount * (targetMultiplier - 1);
+                balance += betAmount; // Add profit to balance
+                winCount++; // Increase win count
+                currentMultiplierElement.classList.add('text-green-500');
+                currentMultiplierElement.classList.remove('text-red-500');
+            } else {
+                profitInput.value = 0;
+                balance -= betAmount; // Deduct bet amount from balance
+                loseCount++; // Increase lose count
+                currentMultiplierElement.classList.add('text-red-500');
+                currentMultiplierElement.classList.remove('text-green-500');
+            }
+
+            // Update UI dan localStorage
+            document.getElementById('balance').textContent = `$${balance.toFixed(2)}`;
+            document.getElementById('profileProfit').textContent = `$${profit.toFixed(2)}`;
+            document.getElementById('winCount').textContent = winCount;
+            document.getElementById('loseCount').textContent = loseCount;
+            // document.getElementById('totalGames').textContent = winCount + loseCount;
+
+            localStorage.setItem('balance', balance.toFixed(2));
+            localStorage.setItem('profit', profit.toFixed(2));
+            localStorage.setItem('winCount', winCount);
+            localStorage.setItem('loseCount', loseCount);
+
+            history.unshift(randomMultiplier + '×');
+            updateHistory();
+
+            setTimeout(() => {
+                isBetting = false;
+            }, 2000);
+        });
+
+        halfBetButton.addEventListener('click', () => {
+            betAmountInput.value = (parseFloat(betAmountInput.value) / 2).toFixed(2);
+        });
+
+        doubleBetButton.addEventListener('click', () => {
+            betAmountInput.value = (parseFloat(betAmountInput.value) * 2).toFixed(2);
+        });
+
+        statisticWinButton.addEventListener('click', () => {
+            playerProfile.style.display = 'flex'; // Show player profile modal
+        });
+
+        closePopupButton.addEventListener('click', () => {
+            playerProfile.style.display = 'none'; // Hide player profile
+        });
+
+        function updateHistory() {
+            historyElement.innerHTML = '';
+            history.slice(0, 5).forEach(multiplier => {
+                const historyItem = document.createElement('div');
+                historyItem.className = 'rounded-full px-3 py-1 text-sm mx-1 bg-gray-500 text-white';
+                historyItem.textContent = multiplier;
+                historyElement.appendChild(historyItem);
+            });
+        }
+    </script>
+
+    <style>
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+    </style>
+</body>
+</html>

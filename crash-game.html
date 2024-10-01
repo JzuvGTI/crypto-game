@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crash Game</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+    <script src="assets/tailwindcss.js"></script>
+    <link rel="stylesheet" href="assets/fontawesome/css/all.min.css">
+    <script src="assets/chart.js"></script>
     <style>
         .multiplier-text {
             font-size: 20px;
@@ -30,7 +30,7 @@
 <body class="bg-gray-100 text-gray-900">
 
     <!-- Game Container -->
-    <section class="container mx-auto p-4">
+    <section class="container mx-auto p-4 mb-10">
         <!-- Player Balance -->
         <div class="bg-white shadow p-4 rounded-lg mb-2">
             <h3 class="text-xl font-semibold text-gray-900">Balance: $<span id="balanceDisplay">0.00</span></h3>
@@ -94,6 +94,11 @@
             <a href="crash-game.html" class="flex flex-col items-center text-blue-600 hover:text-blue-500">
                 <i class="fas fa-chart-line text-xl"></i>
                 <span class="text-xs">Gambling</span>
+            </a>
+            <!-- Limbo -->
+            <a href="limbo.html" class="flex flex-col items-center text-gray-600 hover:text-blue-500">
+                <i class="fas fa-arrow-up text-xl"></i> <!-- Arrow up icon -->
+                <span class="text-xs">Limbo</span>
             </a>
             <a href="profile.html" class="flex flex-col items-center text-gray-600 hover:text-blue-500">
                 <i class="fas fa-user text-xl"></i>
@@ -169,180 +174,180 @@
         }
     </script>
 
-    <script>
-        let multiplier = 1.00;
-        let crashed = false;
-        let playerJoined = false;
-        let cashOut = false;
-        let gameInterval;
-        let crashPoint = getCrashPoint();
-        const gameMessage = document.getElementById("gameMessage");
-        const multiplierDisplay = document.getElementById("multiplierDisplay");
-        const actionButton = document.getElementById("actionButton");
-        const joinMessage = document.getElementById("joinMessage");
-        const betAmountInput = document.getElementById("betAmount");
-        const balanceDisplay = document.getElementById("balanceDisplay");
-        const winsDisplay = document.getElementById("winsDisplay");
-        const lossesDisplay = document.getElementById("lossesDisplay");
-    
-        let joinStartTime;
-        let betAmount;
-        let balance = parseFloat(localStorage.getItem("balance")) || 100.00; 
-        let wins = parseInt(localStorage.getItem("wins")) || 0;
-        let losses = parseInt(localStorage.getItem("losses")) || 0;
-    
-        let timeElapsed = 0; // Time elapsed in seconds for chart labels
-        let timeLabels = [];
-        let multiplierData = [];
-    
-        function updateDisplays() {
-            balanceDisplay.innerText = balance.toLocaleString("en-US", {minimumFractionDigits: 2});
-            winsDisplay.innerText = wins;
-            lossesDisplay.innerText = losses;
-        }
-    
-        updateDisplays();
-    
-        function startCountdown() {
-            let countdown = 5;
-            joinMessage.innerText = "";
-            gameMessage.classList.remove("crash-text");
-            gameMessage.classList.add("normal-text");
+<script>
+    let multiplier = 1.00;
+    let crashed = false;
+    let playerJoined = false;
+    let cashOut = false;
+    let gameInterval;
+    let crashPoint = getCrashPoint();
+    const gameMessage = document.getElementById("gameMessage");
+    const multiplierDisplay = document.getElementById("multiplierDisplay");
+    const actionButton = document.getElementById("actionButton");
+    const joinMessage = document.getElementById("joinMessage");
+    const betAmountInput = document.getElementById("betAmount");
+    const balanceDisplay = document.getElementById("balanceDisplay");
+    const winsDisplay = document.getElementById("winsDisplay");
+    const lossesDisplay = document.getElementById("lossesDisplay");
+
+    let joinStartTime;
+    let betAmount;
+    let balance = parseFloat(localStorage.getItem("balance")) || 0.00; 
+    let wins = parseInt(localStorage.getItem("wins")) || 0;
+    let losses = parseInt(localStorage.getItem("losses")) || 0;
+
+    let timeElapsed = 0; // Time elapsed in seconds for chart labels
+    let timeLabels = [];
+    let multiplierData = [];
+
+    function updateDisplays() {
+        balanceDisplay.innerText = balance.toLocaleString("en-US", {minimumFractionDigits: 2});
+        winsDisplay.innerText = wins;
+        lossesDisplay.innerText = losses;
+    }
+
+    updateDisplays();
+
+    function startCountdown() {
+        let countdown = 5;
+        joinMessage.innerText = "";
+        gameMessage.classList.remove("crash-text");
+        gameMessage.classList.add("normal-text");
+        gameMessage.innerText = `Round Will Start From ${countdown}s`;
+        joinStartTime = Date.now();
+
+        const countdownInterval = setInterval(() => {
+            countdown--;
             gameMessage.innerText = `Round Will Start From ${countdown}s`;
-            joinStartTime = Date.now();
-    
-            const countdownInterval = setInterval(() => {
-                countdown--;
-                gameMessage.innerText = `Round Will Start From ${countdown}s`;
-    
-                if (countdown <= 0) {
-                    clearInterval(countdownInterval);
-                    startGame();
-                }
-            }, 1000);
-        }
-    
-        function startGame() {
-            cashOut = false;
-            crashed = false;
-            multiplier = 1.00;
-            crashPoint = getCrashPoint();
-            timeElapsed = 0;
-            timeLabels = ['0s'];
-            multiplierData = [1.0];
-            createChart(timeLabels, multiplierData);
-    
-            if (playerJoined == true) {
-                actionButton.innerText = "Cash Out";
-                actionButton.classList.remove("disabled-button");
-                actionButton.disabled = false;
-            } else {
-                actionButton.innerText = "Wait Next Round!";
-                actionButton.classList.add("disabled-button");
-                actionButton.disabled = true;
+
+            if (countdown <= 0) {
+                clearInterval(countdownInterval);
+                startGame();
             }
-            joinMessage.innerText = "";
-            gameMessage.innerText = `1.00x Multiplier`;
-    
-            // Sedang multiplier interval (awal pelan, setelah 5 lebih cepat)
-            gameInterval = setInterval(() => {
-                timeElapsed++;
-    
-                // Meningkatkan multiplier secara bertahap
-                if (multiplier < 5) {
-                    multiplier += 0.01; // Pelan sebelum 5
-                } else {
-                    multiplier += 0.05; // Lebih cepat setelah 5
-                }
-    
-                if (!crashed) {
-                    multiplierDisplay.innerText = `${multiplier.toFixed(2)}×`;
-                    updateChart(`${timeElapsed}s`, multiplier);
-    
-                    // Change text color based on multiplier value
-                    if (multiplier > 20) {
-                        multiplierDisplay.style.color = 'blue';
-                    } else if (multiplier > 10) {
-                        multiplierDisplay.style.color = 'purple';
-                    } else if (multiplier > 2) {
-                        multiplierDisplay.style.color = 'green';
-                    } else {
-                        multiplierDisplay.style.color = 'black'; // Default color
-                    }
-    
-                    // Update game message to show dynamic multiplier
-                    gameMessage.innerText = `${multiplier.toFixed(2)}x Multiplier`;
-                }
-    
-                if (multiplier >= crashPoint) {
-                    crashGame();
-                }
-            }, 200); // 200ms untuk update sedang
-        }
-    
-        function crashGame() {
-            clearInterval(gameInterval);
-            crashed = true;
-            gameMessage.classList.add("crash-text");
-            gameMessage.classList.remove("normal-text");
-            gameMessage.innerText = `Crashed At ${multiplier.toFixed(2)}×`;
-    
-            if (playerJoined && !cashOut) {
-                playerLoses();
-            }
-    
-            actionButton.innerText = "Place Bet";
+        }, 1000);
+    }
+
+    function startGame() {
+        cashOut = false;
+        crashed = false;
+        multiplier = 1.00;
+        crashPoint = getCrashPoint();
+        timeElapsed = 0;
+        timeLabels = ['0s'];
+        multiplierData = [1.0];
+        createChart(timeLabels, multiplierData);
+
+        if (playerJoined == true) {
+            actionButton.innerText = "Cash Out";
             actionButton.classList.remove("disabled-button");
             actionButton.disabled = false;
-            playerJoined = false;
-    
-            setTimeout(() => {
-                startCountdown();
-            }, 5000);
+        } else {
+            actionButton.innerText = "Wait Next Round!";
+            actionButton.classList.add("disabled-button");
+            actionButton.disabled = true;
         }
-    
-        function playerWins() {
-            cashOut = true;
-            const winningAmount = betAmount * multiplier;
-            balance += winningAmount;
-            wins++;
-            localStorage.setItem("balance", balance.toFixed(2));
-            localStorage.setItem("wins", wins);
-            updateDisplays();
-            joinMessage.innerText = `You Cashed Out At ${multiplier.toFixed(2)}×!`;
-        }
-    
-        function playerLoses() {
-            losses++;
-            localStorage.setItem("losses", losses);
-            updateDisplays();
-            joinMessage.innerText = `You Lost This Round.`;
-        }
-    
-        actionButton.addEventListener("click", () => {
-            if (playerJoined == false) {
-                betAmount = parseFloat(betAmountInput.value);
-                if (!isNaN(betAmount) && betAmount > 0 && betAmount <= balance) {
-                    playerJoined = true;
-                    balance -= betAmount;
-                    localStorage.setItem("balance", balance.toFixed(2));
-                    updateDisplays();
-                    joinMessage.innerText = `You Joined The Game With $${betAmount.toFixed(2)}`;
-                    actionButton.innerText = "Cash Out";
-                } else {
-                    joinMessage.innerText = "Invalid Bet Amount!";
-                }
-            } else if (playerJoined == true && cashOut == false) {
-                playerWins();
+        joinMessage.innerText = "";
+        gameMessage.innerText = `1.00x Multiplier`;
+
+        // Sedang multiplier interval (awal pelan, setelah 5 lebih cepat)
+        gameInterval = setInterval(() => {
+            timeElapsed++;
+
+            // Meningkatkan multiplier secara bertahap
+            if (multiplier < 5) {
+                multiplier += 0.01; // Pelan sebelum 5
+            } else {
+                multiplier += 0.05; // Lebih cepat setelah 5
             }
-        });
-    
-        function getCrashPoint() {
-            return (Math.random() * (3.0 - 1.5) + 1.5).toFixed(2); 
+
+            if (!crashed) {
+                multiplierDisplay.innerText = `${multiplier.toFixed(2)}×`;
+                updateChart(`${timeElapsed}s`, multiplier);
+
+                // Change text color based on multiplier value
+                if (multiplier > 20) {
+                    multiplierDisplay.style.color = 'blue';
+                } else if (multiplier > 10) {
+                    multiplierDisplay.style.color = 'purple';
+                } else if (multiplier > 2) {
+                    multiplierDisplay.style.color = 'green';
+                } else {
+                    multiplierDisplay.style.color = 'black'; // Default color
+                }
+
+                // Update game message to show dynamic multiplier
+                gameMessage.innerText = `${multiplier.toFixed(2)}x Multiplier`;
+            }
+
+            if (multiplier >= crashPoint) {
+                crashGame();
+            }
+        }, 200); // 200ms untuk update sedang
+    }
+
+    function crashGame() {
+        clearInterval(gameInterval);
+        crashed = true;
+        gameMessage.classList.add("crash-text");
+        gameMessage.classList.remove("normal-text");
+        gameMessage.innerText = `Crashed At ${multiplier.toFixed(2)}×`;
+
+        if (playerJoined && !cashOut) {
+            playerLoses();
         }
-    
-        startCountdown();
-    </script>
+
+        actionButton.innerText = "Place Bet";
+        actionButton.classList.remove("disabled-button");
+        actionButton.disabled = false;
+        playerJoined = false;
+
+        setTimeout(() => {
+            startCountdown();
+        }, 5000);
+    }
+
+    function playerWins() {
+        cashOut = true;
+        const winningAmount = betAmount * multiplier;
+        balance += winningAmount;
+        wins++;
+        localStorage.setItem("balance", balance.toFixed(2));
+        localStorage.setItem("wins", wins);
+        updateDisplays();
+        joinMessage.innerText = `You Cashed Out At ${multiplier.toFixed(2)}×!`;
+    }
+
+    function playerLoses() {
+        losses++;
+        localStorage.setItem("losses", losses);
+        updateDisplays();
+        joinMessage.innerText = `You Lost This Round.`;
+    }
+
+    actionButton.addEventListener("click", () => {
+        if (playerJoined == false) {
+            betAmount = parseFloat(betAmountInput.value);
+            if (!isNaN(betAmount) && betAmount > 0 && betAmount <= balance) {
+                playerJoined = true;
+                balance -= betAmount;
+                localStorage.setItem("balance", balance.toFixed(2));
+                updateDisplays();
+                joinMessage.innerText = `You Joined The Game With $${betAmount.toFixed(2)}`;
+                actionButton.innerText = "Cash Out";
+            } else {
+                joinMessage.innerText = "Invalid Bet Amount!";
+            }
+        } else if (playerJoined == true && cashOut == false) {
+            playerWins();
+        }
+    });
+
+    function getCrashPoint() {
+        return (Math.random() * (3.0 - 1.5) + 1.5).toFixed(2); 
+    }
+
+    startCountdown();
+</script>
 
 
 </body>

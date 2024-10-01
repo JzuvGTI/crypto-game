@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crypto Exchange</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <script src="assets/tailwindcss.js"></script>
+    <link rel="stylesheet" href="assets/fontawesome/css/all.min.css">
 </head>
 
 <style>
@@ -16,8 +16,8 @@
         -ms-overflow-style: none;  /* IE and Edge */
         scrollbar-width: none;  /* Firefox */
     }
-
 </style>
+
 <body class="bg-white font-sans">
 
     <div class="max-w-lg mx-auto mt-6 px-4">
@@ -34,25 +34,26 @@
         <div class="w-full overflow-x-auto no-scrollbar">
             <div class="flex space-x-2 w-max mb-3 mt-3">
                 <label class="cursor-pointer">
-                    <input type="radio" name="filter" class="hidden peer" />
+                    <input type="radio" name="filter" class="hidden peer" value="cheap" />
                     <span class="px-4 py-2 bg-gray-200 text-gray-600 rounded-full text-sm font-medium peer-checked:bg-blue-600 peer-checked:text-white">
                         Cheap first
                     </span>
                 </label>
+                
                 <label class="cursor-pointer">
-                    <input type="radio" name="filter" class="hidden peer" />
+                    <input type="radio" name="filter" class="hidden peer" value="expensive" />
                     <span class="px-4 py-2 bg-gray-200 text-gray-600 rounded-full text-sm font-medium peer-checked:bg-blue-600 peer-checked:text-white">
                         Expensive first
                     </span>
                 </label>
                 <label class="cursor-pointer">
-                    <input type="radio" name="filter" class="hidden peer" />
+                    <input type="radio" name="filter" class="hidden peer" value="high-capitalization" />
                     <span class="px-4 py-2 bg-gray-200 text-gray-600 rounded-full text-sm font-medium peer-checked:bg-blue-600 peer-checked:text-white">
                         Highest capitalization
                     </span>
                 </label>
                 <label class="cursor-pointer">
-                    <input type="radio" name="filter" class="hidden peer" />
+                    <input type="radio" name="filter" class="hidden peer" value="low-capitalization" />
                     <span class="px-4 py-2 bg-gray-200 text-gray-600 rounded-full text-sm font-medium peer-checked:bg-blue-600 peer-checked:text-white">
                         Lowest capitalization
                     </span>
@@ -60,153 +61,111 @@
             </div>
         </div>
 
-
-
-
         <!-- Cryptocurrency List -->
-        <div class="space-y-4">
-            <div class="flex items-center justify-between py-4 border-b">
-                <div class="flex items-center space-x-3">
-                    <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png" alt="Bitcoin" class="w-10 h-10">
-                    <div>
-                        <h2 class="text-lg font-semibold">Bitcoin</h2>
-                        <p class="text-sm text-gray-500">Available</p>
-                    </div>
-                </div>
-                <div class="text-right">
-                    <p class="text-lg font-semibold">$35,361.09</p>
-                    <p class="text-green-500 text-sm"><i class="fas fa-arrow-up"></i> 0.27%</p>
-                </div>
-            </div>
-
-            <div class="flex items-center justify-between py-4 border-b">
-                <div class="flex items-center space-x-3">
-                    <img src="https://cryptologos.cc/logos/ethereum-eth-logo.png" alt="Ethereum" class="w-10 h-10">
-                    <div>
-                        <h2 class="text-lg font-semibold">Ethereum</h2>
-                        <p class="text-sm text-gray-500">Available</p>
-                    </div>
-                </div>
-                <div class="text-right">
-                    <p class="text-lg font-semibold">$3,208.65</p>
-                    <p class="text-green-500 text-sm"><i class="fas fa-arrow-up"></i> 0.45%</p>
-                </div>
-            </div>
-
-            <div class="flex items-center justify-between py-4 border-b">
-                <div class="flex items-center space-x-3">
-                    <img src="https://cryptologos.cc/logos/cardano-ada-logo.png" alt="Cardano" class="w-10 h-10">
-                    <div>
-                        <h2 class="text-lg font-semibold">Cardano</h2>
-                        <p class="text-sm text-gray-500">Available</p>
-                    </div>
-                </div>
-                <div class="text-right">
-                    <p class="text-lg font-semibold">$0.46</p>
-                    <p class="text-red-500 text-sm"><i class="fas fa-arrow-down"></i> 0.37%</p>
-                </div>
-            </div>
-
-            <div class="flex items-center justify-between py-4 border-b">
-                <div class="flex items-center space-x-3">
-                    <img src="https://cryptologos.cc/logos/xrp-xrp-logo.png" alt="XRP" class="w-10 h-10">
-                    <div>
-                        <h2 class="text-lg font-semibold">XRP</h2>
-                        <p class="text-sm text-gray-500">Available</p>
-                    </div>
-                </div>
-                <div class="text-right">
-                    <p class="text-lg font-semibold">$0.36</p>
-                    <p class="text-green-500 text-sm"><i class="fas fa-arrow-up"></i> 0.55%</p>
-                </div>
-            </div>
-
-            <div class="flex items-center justify-between py-4 border-b">
-                <div class="flex items-center space-x-3">
-                    <img src="https://cryptologos.cc/logos/solana-sol-logo.png" alt="Solana" class="w-10 h-10">
-                    <div>
-                        <h2 class="text-lg font-semibold">Solana</h2>
-                        <p class="text-sm text-gray-500">Available</p>
-                    </div>
-                </div>
-                <div class="text-right">
-                    <p class="text-lg font-semibold">$32.78</p>
-                    <p class="text-red-500 text-sm"><i class="fas fa-arrow-down"></i> 0.10%</p>
-                </div>
-            </div>
-
-            <div class="flex items-center justify-between py-4 border-b">
-                <div class="flex items-center space-x-3">
-                    <img src="https://cryptologos.cc/logos/polkadot-dot-logo.png" alt="Polkadot" class="w-10 h-10">
-                    <div>
-                        <h2 class="text-lg font-semibold">Polkadot</h2>
-                        <p class="text-sm text-gray-500">Available</p>
-                    </div>
-                </div>
-                <div class="text-right">
-                    <p class="text-lg font-semibold">$8.75</p>
-                    <p class="text-green-500 text-sm"><i class="fas fa-arrow-up"></i> 0.61%</p>
-                </div>
-            </div>
-
-            <div class="flex items-center justify-between py-4 border-b">
-                <div class="flex items-center space-x-3">
-                    <img src="https://cryptologos.cc/logos/dogecoin-doge-logo.png" alt="Dogecoin" class="w-10 h-10">
-                    <div>
-                        <h2 class="text-lg font-semibold">Dogecoin</h2>
-                        <p class="text-sm text-gray-500">Available</p>
-                    </div>
-                </div>
-                <div class="text-right">
-                    <p class="text-lg font-semibold">$0.05</p>
-                    <p class="text-green-500 text-sm"><i class="fas fa-arrow-up"></i> 0.29%</p>
-                </div>
-            </div>
-
-            <div class="flex items-center justify-between py-4 border-b">
-                <div class="flex items-center space-x-3">
-                    <img src="https://cryptologos.cc/logos/avalanche-avax-logo.png" alt="Avalanche" class="w-10 h-10">
-                    <div>
-                        <h2 class="text-lg font-semibold">Avalanche</h2>
-                        <p class="text-sm text-gray-500">Available</p>
-                    </div>
-                </div>
-                <div class="text-right">
-                    <p class="text-lg font-semibold">$37.11</p>
-                    <p class="text-green-500 text-sm"><i class="fas fa-arrow-up"></i> 0.24%</p>
-                </div>
-            </div>
-
-            <div class="flex items-center justify-between py-4 border-b">
-                <div class="flex items-center space-x-3">
-                    <img src="https://cryptologos.cc/logos/litecoin-ltc-logo.png" alt="Litecoin" class="w-10 h-10">
-                    <div>
-                        <h2 class="text-lg font-semibold">Litecoin</h2>
-                        <p class="text-sm text-gray-500">Available</p>
-                    </div>
-                </div>
-                <div class="text-right">
-                    <p class="text-lg font-semibold">$72.78</p>
-                    <p class="text-green-500 text-sm"><i class="fas fa-arrow-up"></i> 0.90%</p>
-                </div>
-            </div>
-
-            <div class="flex items-center justify-between py-4">
-                <div class="flex items-center space-x-3">
-                    <img src="https://cryptologos.cc/logos/tellor-trb-logo.png" alt="TRB" class="w-10 h-10">
-                    <div>
-                        <h2 class="text-lg font-semibold">TRB</h2>
-                        <p class="text-sm text-gray-500">Available</p>
-                    </div>
-                </div>
-                <div class="text-right">
-                    <p class="text-lg font-semibold">$16.42</p>
-                    <p class="text-red-500 text-sm"><i class="fas fa-arrow-down"></i> 0.42%</p>
-                </div>
-            </div>
+        <div class="space-y-4" id="crypto-list">
+            <!-- Coins will be dynamically injected here -->
         </div>
 
     </div>
 
+    <script>
+        // Function to format numbers with commas (US Dollar Format)
+        function formatPrice(price) {
+            return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(price);
+        }
+
+        // Data for cryptocurrencies
+        const cryptoData = [
+            { name: 'Bitcoin', price: 35361.09, capitalization: 700000000000, change: 0.27, logo: 'https://cryptologos.cc/logos/bitcoin-btc-logo.png', available: true },
+            { name: 'Ethereum', price: 3208.65, capitalization: 500000000000, change: 0.45, logo: 'https://cryptologos.cc/logos/ethereum-eth-logo.png', available: true },
+            { name: 'Cardano', price: 0.46, capitalization: 35000000000, change: -0.37, logo: 'https://cryptologos.cc/logos/cardano-ada-logo.png', available: true },
+            { name: 'XRP', price: 0.36, capitalization: 40000000000, change: 0.55, logo: 'https://cryptologos.cc/logos/xrp-xrp-logo.png', available: true },
+            { name: 'Solana', price: 32.78, capitalization: 30000000000, change: -0.10, logo: 'https://cryptologos.cc/logos/solana-sol-logo.png', available: true },
+            { name: 'Polkadot', price: 8.75, capitalization: 20000000000, change: 0.61, logo: 'https://cryptologos.cc/logos/polkadot-dot-logo.png', available: true },
+            { name: 'Dogecoin', price: 0.05, capitalization: 10000000000, change: 0.29, logo: 'https://cryptologos.cc/logos/dogecoin-doge-logo.png', available: true },
+            { name: 'Avalanche', price: 37.11, capitalization: 25000000000, change: 0.24, logo: 'https://cryptologos.cc/logos/avalanche-avax-logo.png', available: true },
+            { name: 'Litecoin', price: 72.78, capitalization: 10000000000, change: 0.90, logo: 'https://cryptologos.cc/logos/litecoin-ltc-logo.png', available: true },
+            { name: 'TRB', price: 16.42, capitalization: 500000000, change: -0.42, logo: 'https://cryptologos.cc/logos/tellor-trb-logo.png', available: true }
+        ];
+
+        // Function to update the cryptocurrency list
+        function updateCryptoList(sortedData) {
+            const cryptoList = document.getElementById('crypto-list');
+            cryptoList.innerHTML = ''; // Clear existing content
+
+            sortedData.forEach(coin => {
+                const changeColor = coin.change >= 0 ? 'text-green-500' : 'text-red-500';
+                const changeIcon = coin.change >= 0 ? 'fas fa-arrow-up' : 'fas fa-arrow-down';
+                
+                const cryptoItem = `
+                    <a href='buying-crypto.html' class="flex items-center justify-between py-4 border-b hover:bg-gray-300 hover:rounded-lg hover:mx-1">
+                        <div class="flex items-center space-x-3 hover:mx-2">
+                            <img src="${coin.logo}" alt="${coin.name}" class="w-10 h-10">
+                            <div>
+                                <h2 class="text-lg font-semibold">${coin.name}</h2>
+                                <p class="text-sm text-gray-500">${coin.available ? 'Available' : 'Unavailable'}</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-lg font-semibold">${formatPrice(coin.price)}</p>
+                            <p class="${changeColor} text-sm"><i class="${changeIcon}"></i> ${coin.change}%</p>
+                        </div>
+                    </a>
+                `;
+
+                cryptoList.innerHTML += cryptoItem;
+            });
+        }
+
+        // Function to sort the cryptoData based on filter
+        function sortCryptoData(filter) {
+            let sortedData = [...cryptoData]; // Clone the original data
+
+            if (filter === 'cheap') {
+                sortedData.sort((a, b) => a.price - b.price);
+            } else if (filter === 'expensive') {
+                sortedData.sort((a, b) => b.price - a.price);
+            } else if (filter === 'high-capitalization') {
+                sortedData.sort((a, b) => b.capitalization - a.capitalization);
+            } else if (filter === 'low-capitalization') {
+                sortedData.sort((a, b) => a.capitalization - b.capitalization);
+            }
+
+            updateCryptoList(sortedData); // Update the list with sorted data
+        }
+
+        // Function to simulate price changes
+        function updatePrices() {
+            cryptoData.forEach(coin => {
+                // Simulate price change: +/- up to 5% of current price
+                const priceChange = (Math.random() < 0.5 ? -1 : 1) * (Math.random() * 0.05 * coin.price);
+                coin.price = parseFloat((coin.price + priceChange).toFixed(2));
+
+                // Update change percentage (for display purposes)
+                coin.change = parseFloat((priceChange / (coin.price - priceChange) * 100).toFixed(2));
+            });
+
+            // Sort data based on the current selected filter
+            const selectedFilter = document.querySelector('input[name="filter"]:checked');
+            if (selectedFilter) {
+                sortCryptoData(selectedFilter.value);
+            } else {
+                updateCryptoList(cryptoData); // Just update if no filter selected
+            }
+        }
+
+        // Event listeners for filter change
+        document.querySelectorAll('input[name="filter"]').forEach(radio => {
+            radio.addEventListener('change', () => {
+                sortCryptoData(radio.value);
+            });
+        });
+
+        // Initial rendering of the cryptocurrency list
+        updateCryptoList(cryptoData);
+
+        // Update prices every 10 seconds
+        setInterval(updatePrices, 10000);
+    </script>
 </body>
 </html>

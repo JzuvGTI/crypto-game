@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stock Portfolio</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="assets/tailwindcss.js"></script>
+    <link rel="stylesheet" href="assets/fontawesome/css/all.min.css">
 </head>
 <style>
     /* Untuk menyembunyikan scrollbar pada div dengan class coins-list */
@@ -14,19 +15,22 @@
     }
 
     .coins-list {
-        -ms-overflow-style: none;  /* Internet Explorer 10+ */
-        scrollbar-width: none;  /* Firefox */
+        -ms-overflow-style: none;
+        /* Internet Explorer 10+ */
+        scrollbar-width: none;
+        /* Firefox */
     }
-
 </style>
+
 <body class="bg-gray-100">
 
     <!-- Header -->
     <div class="p-4">
         <h1 class="text-3xl font-bold">Investing</h1>
         <div class="flex justify-between mt-4">
-            <button id="shares-tab" onclick="showTab('shares')" class="text-blue-500 border-b-2 border-blue-500">Shares</button>
-            <button id="realEstate-tab" onclick="showTab('realEstate')" class="text-gray-500">Real Estate</button>
+            <button id="shares-tab" onclick="showTab('shares')"
+                class="text-blue-500 border-b-2 border-blue-500">Shares</button>
+            <button id="swapCoin-tab" onclick="showTab('swapCoin')" class="text-gray-500">Swap Coin</button>
             <button id="crypto-tab" onclick="showTab('crypto')" class="text-gray-500">Cryptocurrency</button>
         </div>
     </div>
@@ -42,7 +46,8 @@
             </div>
             <div class="bg-white shadow-md rounded-b-lg p-4">
                 <p class="text-2xl font-bold">$ 0,00</p>
-                <p class="text-green-500">+ $0.00 (0.00%) <a href="myshares.html" class="text-blue-500">for all time</a></p>
+                <p class="text-green-500">+ $0.00 (0.00%) <a href="myshares.html" class="text-blue-500">for all time</a>
+                </p>
                 <p class="mt-4 text-gray-500">Estimated yield per hour</p>
                 <p class="text-2xl font-bold">$ 0,00</p>
             </div>
@@ -76,12 +81,125 @@
     </div>
 
     <!-- Real Estate -->
-    <div id="realEstate" class="py-6 hidden">
+    <div id="swapCoin" class="py-6 hidden">
         <!-- Add real estate content here -->
-        <div class="p-4">
-            <p class="text-gray-600 text-center">Real Estate Comming Soon!</p>
+        <div class="p-4 flex items-center justify-center">
+            <div class="bg-white shadow-md rounded-lg p-6 w-screen relative">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="relative">
+                        <button class="flex items-center space-x-2 focus:outline-none" id="chainModalButton">
+                            <img alt="BNB Chain logo" class="w-5 h-5" id="chainIcon"
+                                src="https://cryptologos.cc/logos/binance-coin-bnb-logo.png?v=024" />
+                            <span class="font-semibold" id="chainName">
+                                Block Chain
+                            </span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                    </div>
+                    <i class="fas fa-cog text-gray-500"></i>
+                </div>
+                <div class="bg-gray-50 p-4 rounded-lg mb-4">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-gray-500 text-sm">
+                            From
+                        </span>
+                        <span class="text-gray-500 text-sm">
+                            Balance: ≈ $0.00
+                        </span>
+                    </div>
+                    <div class="relative">
+                        <button class="flex items-center justify-between w-full focus:outline-none"
+                            id="fromModalButton">
+                            <div class="flex items-center space-x-2">
+                                <img alt="Bitcoin logo" class="w-5 h-5" id="fromIcon"
+                                    src="https://cryptologos.cc/logos/bitcoin-btc-logo.png?v=024" />
+                                <span class="font-semibold" id="fromName">
+                                    BITCOINAI
+                                </span>
+                            </div>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                    </div>
+                    <input class="mt-2 w-full p-2 border border-gray-300 rounded-lg" placeholder="0" type="number" />
+                </div>
+                <div class="flex justify-center mb-4">
+                    <i class="fas fa-arrow-down text-gray-500"></i>
+                </div>
+                <div class="bg-gray-50 p-4 rounded-lg mb-4">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-gray-500 text-sm">
+                            To
+                        </span>
+                        <span class="text-gray-500 text-sm">
+                            Balance: ≈ $0.00
+                        </span>
+                    </div>
+                    <div class="relative">
+                        <button class="flex items-center justify-between w-full focus:outline-none" id="toModalButton">
+                            <div class="flex items-center space-x-2">
+                                <img alt="USDT logo" class="w-5 h-5" id="toIcon"
+                                    src="https://cryptologos.cc/logos/tether-usdt-logo.png?v=024" />
+                                <span class="font-semibold" id="toName">
+                                    USDT
+                                </span>
+                            </div>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+                    </div>
+                    <input class="mt-2 w-full p-2 border border-gray-300 rounded-lg" placeholder="0" type="number" />
+                </div>
+                <button class="bg-blue-600 text-white w-full py-2 rounded-lg font-semibold">
+                    Connect wallet
+                </button>
+            </div>
+            <!-- Modal -->
+            <div class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center hidden" id="modal">
+                <div class="bg-white rounded-lg shadow-lg w-80 p-4">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-lg font-semibold">Select a Coin</h2>
+                        <button class="text-gray-500 focus:outline-none" id="closeModalButton">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <input class="w-full p-2 border border-gray-300 rounded-lg mb-4" placeholder="Search for a coin"
+                        type="text" id="searchInput" />
+                    <div class="overflow-y-auto h-64" id="coinList">
+                        <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100 flex items-center space-x-2 cursor-pointer"
+                            data-coin="BNB Chain"
+                            data-icon="assets/JzCoin.png">
+                            <img alt="BNB Chain logo" class="w-5 h-5"
+                                src="assets/JzCoin.png" />
+                            <span>BNB Chain</span>
+                        </a>
+                        <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100 flex items-center space-x-2 cursor-pointer"
+                            data-coin="Ethereum" data-icon="https://cryptologos.cc/logos/ethereum-eth-logo.png?v=024">
+                            <img alt="Ethereum logo" class="w-5 h-5"
+                                src="https://cryptologos.cc/logos/ethereum-eth-logo.png?v=024" />
+                            <span>Ethereum</span>
+                        </a>
+                        <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100 flex items-center space-x-2 cursor-pointer"
+                            data-coin="Polygon" data-icon="https://cryptologos.cc/logos/polygon-matic-logo.png?v=024">
+                            <img alt="Polygon logo" class="w-5 h-5"
+                                src="https://cryptologos.cc/logos/polygon-matic-logo.png?v=024" />
+                            <span>Polygon</span>
+                        </a>
+                        <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100 flex items-center space-x-2 cursor-pointer"
+                            data-coin="Bitcoin" data-icon="https://cryptologos.cc/logos/bitcoin-btc-logo.png?v=024">
+                            <img alt="Bitcoin logo" class="w-5 h-5"
+                                src="https://cryptologos.cc/logos/bitcoin-btc-logo.png?v=024" />
+                            <span>Bitcoin</span>
+                        </a>
+                        <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100 flex items-center space-x-2 cursor-pointer"
+                            data-coin="USDT" data-icon="https://cryptologos.cc/logos/tether-usdt-logo.png?v=024">
+                            <img alt="USDT logo" class="w-5 h-5"
+                                src="https://cryptologos.cc/logos/tether-usdt-logo.png?v=024" />
+                            <span>USDT</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
-        
+
     </div>
 
     <!-- Crypto -->
@@ -94,11 +212,12 @@
                 </div>
                 <p class="text-3xl font-bold mt-2">$ 0.00</p>
                 <p class="text-green-500 text-sm">+ $0.00 (0.00%)</p>
-                <button onclick="location.href='buy-crypto.html'" class="bg-gray-300 text-gray-700 py-2 px-4 mt-4 rounded-lg shadow-md w-full">Buy</button>
+                <button onclick="location.href='buy-crypto.html'"
+                    class="bg-gray-300 text-gray-700 py-2 px-4 mt-4 rounded-lg shadow-md w-full">Buy</button>
             </div>
         </div>
 
-        <div class="p-4">
+        <div class="p-4 ">
             <div class="mt-4 coins-list max-h-64 overflow-y-scroll">
                 <h3 class="font-bold text-gray-600">Coins</h3>
                 <div class="flex justify-between py-2">
@@ -111,7 +230,7 @@
                     </div>
                     <p class="text-green-500">$3.80 (+25.16%)</p>
                 </div>
-                
+
                 <div class="flex justify-between py-2">
                     <div class="flex items-center space-x-2">
                         <img src="https://cryptologos.cc/logos/ethereum-eth-logo.png" alt="Ethereum" class="w-6 h-6">
@@ -122,7 +241,7 @@
                     </div>
                     <p class="text-red-500">$719.3k (-0.99%)</p>
                 </div>
-                
+
                 <div class="flex justify-between py-2">
                     <div class="flex items-center space-x-2">
                         <img src="https://cryptologos.cc/logos/solana-sol-logo.png" alt="Solana" class="w-6 h-6">
@@ -133,10 +252,11 @@
                     </div>
                     <p class="text-red-500">$10.3k (-0.99%)</p>
                 </div>
-                
+
                 <div class="flex justify-between py-2">
                     <div class="flex items-center space-x-2">
-                        <img src="https://cryptologos.cc/logos/binance-coin-bnb-logo.png" alt="Binance Coin" class="w-6 h-6">
+                        <img src="https://cryptologos.cc/logos/binance-coin-bnb-logo.png" alt="Binance Coin"
+                            class="w-6 h-6">
                         <div>
                             <p>Binance Coin</p>
                             <p class="text-sm text-gray-400">10.75 BNB</p>
@@ -144,7 +264,7 @@
                     </div>
                     <p class="text-green-500">$3.8k (+12.47%)</p>
                 </div>
-                
+
                 <div class="flex justify-between py-2">
                     <div class="flex items-center space-x-2">
                         <img src="https://cryptologos.cc/logos/cardano-ada-logo.png" alt="Cardano" class="w-6 h-6">
@@ -155,7 +275,7 @@
                     </div>
                     <p class="text-red-500">$400 (-2.45%)</p>
                 </div>
-                
+
                 <div class="flex justify-between py-2">
                     <div class="flex items-center space-x-2">
                         <img src="https://cryptologos.cc/logos/book-of-meme-bome-logo.png" alt="Bome" class="w-6 h-6">
@@ -166,7 +286,7 @@
                     </div>
                     <p class="text-green-500">$550 (+5.12%)</p>
                 </div>
-                
+
                 <div class="flex justify-between py-2">
                     <div class="flex items-center space-x-2">
                         <img src="https://cryptologos.cc/logos/shiba-inu-shib-logo.png" alt="Shiba" class="w-6 h-6">
@@ -177,7 +297,7 @@
                     </div>
                     <p class="text-green-500">$1.5k (+8.32%)</p>
                 </div>
-                
+
                 <div class="flex justify-between py-2">
                     <div class="flex items-center space-x-2">
                         <img src="https://cryptologos.cc/logos/chainlink-link-logo.png" alt="Chainlink" class="w-6 h-6">
@@ -188,7 +308,7 @@
                     </div>
                     <p class="text-red-500">$350 (-1.92%)</p>
                 </div>
-                
+
                 <div class="flex justify-between py-2">
                     <div class="flex items-center space-x-2">
                         <img src="https://cryptologos.cc/logos/litecoin-ltc-logo.png" alt="Litecoin" class="w-6 h-6">
@@ -199,7 +319,7 @@
                     </div>
                     <p class="text-green-500">$4k (+3.58%)</p>
                 </div>
-                
+
             </div>
         </div>
     </div>
@@ -227,6 +347,11 @@
                 <i class="fas fa-chart-line text-xl"></i>
                 <span class="text-xs">Gambling</span>
             </a>
+            <!-- Limbo -->
+            <a href="limbo.html" class="flex flex-col items-center text-gray-600 hover:text-blue-500">
+                <i class="fas fa-arrow-up text-xl"></i> <!-- Arrow up icon -->
+                <span class="text-xs">Limbo</span>
+            </a>
             <!-- Profile -->
             <a href="profile.html" class="flex flex-col items-center text-gray-600 hover:text-blue-500">
                 <i class="fas fa-user text-xl"></i>
@@ -236,10 +361,69 @@
     </footer>
 
     <script>
+        const modal = document.getElementById('modal');
+        const closeModalButton = document.getElementById('closeModalButton');
+        const searchInput = document.getElementById('searchInput');
+        const coinList = document.getElementById('coinList');
+        let currentButton = null;
+
+        document.getElementById('chainModalButton').addEventListener('click', function () {
+            currentButton = 'chain';
+            modal.classList.remove('hidden');
+        });
+
+        document.getElementById('fromModalButton').addEventListener('click', function () {
+            currentButton = 'from';
+            modal.classList.remove('hidden');
+        });
+
+        document.getElementById('toModalButton').addEventListener('click', function () {
+            currentButton = 'to';
+            modal.classList.remove('hidden');
+        });
+
+        closeModalButton.addEventListener('click', function () {
+            modal.classList.add('hidden');
+        });
+
+        coinList.addEventListener('click', function (event) {
+            const target = event.target.closest('a');
+            if (target) {
+                const coinName = target.getAttribute('data-coin');
+                const coinIcon = target.getAttribute('data-icon');
+                if (currentButton === 'chain') {
+                    document.getElementById('chainName').textContent = coinName;
+                    document.getElementById('chainIcon').src = coinIcon;
+                } else if (currentButton === 'from') {
+                    document.getElementById('fromName').textContent = coinName;
+                    document.getElementById('fromIcon').src = coinIcon;
+                } else if (currentButton === 'to') {
+                    document.getElementById('toName').textContent = coinName;
+                    document.getElementById('toIcon').src = coinIcon;
+                }
+                modal.classList.add('hidden');
+            }
+        });
+
+        searchInput.addEventListener('input', function () {
+            const filter = searchInput.value.toLowerCase();
+            const coins = coinList.querySelectorAll('a');
+            coins.forEach(coin => {
+                const text = coin.textContent.toLowerCase();
+                if (text.includes(filter)) {
+                    coin.classList.remove('hidden');
+                } else {
+                    coin.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+
+    <script>
         function showTab(tabName) {
             // Hide all tabs
             document.getElementById('shares').classList.add('hidden');
-            document.getElementById('realEstate').classList.add('hidden');
+            document.getElementById('swapCoin').classList.add('hidden');
             document.getElementById('crypto').classList.add('hidden');
             // Show the selected tab
             document.getElementById(tabName).classList.remove('hidden');
@@ -247,8 +431,8 @@
             // Reset all tab buttons to default (gray)
             document.getElementById('shares-tab').classList.remove('text-blue-500', 'border-b-2', 'border-blue-500');
             document.getElementById('shares-tab').classList.add('text-gray-500');
-            document.getElementById('realEstate-tab').classList.remove('text-blue-500', 'border-b-2', 'border-blue-500');
-            document.getElementById('realEstate-tab').classList.add('text-gray-500');
+            document.getElementById('swapCoin-tab').classList.remove('text-blue-500', 'border-b-2', 'border-blue-500');
+            document.getElementById('swapCoin-tab').classList.add('text-gray-500');
             document.getElementById('crypto-tab').classList.remove('text-blue-500', 'border-b-2', 'border-blue-500');
             document.getElementById('crypto-tab').classList.add('text-gray-500');
 
@@ -258,4 +442,5 @@
         }
     </script>
 </body>
+
 </html>
