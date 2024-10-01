@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transfer Page</title>
+    <script src="../assets/tailwindcss.js"></script>
+    <link rel="stylesheet" href="../assets/fontawesome/css/all.min.css">
+    <style>
+        .number-pad button {
+            transition: background-color 0.2s ease;
+        }
+
+        .number-pad button:hover {
+            background-color: #e2e8f0;
+        }
+
+        .input-field {
+            transition: border-color 0.2s ease;
+        }
+
+        .input-field:focus {
+            border-color: #38bdf8;
+        }
+
+        .error-border {
+            border-color: #ef4444 !important;
+        }
+
+        .error-text {
+            color: #ef4444;
+            display: none;
+        }
+
+        .show-error {
+            display: block;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            max-height: 80%;
+            transition: transform 0.3s ease;
+            transform: translateY(100%);
+            z-index: 1000;
+        }
+
+        .popup.open {
+            display: block;
+            transform: translateY(0);
+        }
+
+        .popup-content {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+
+        .resize-handle {
+            width: 100%;
+            height: 10px;
+            background: #e2e8f0;
+            cursor: ns-resize;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+
+        .popup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 50px; /* Tambahkan jarak bawah */
+        }
+
+        .popup-title {
+            flex-grow: 1; /* Memungkinkan judul untuk mengambil ruang yang tersedia */
+            text-align: center; /* Memposisikan judul di tengah */
+            font-size: 24px; /* Ukuran teks */
+            font-weight: bold; /* Menjadikan teks tebal */
+        }
+
+
+        .popup-header i {
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        /* Animasi untuk getar ketika salah PIN */
+        .shake {
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            50% { transform: translateX(10px); }
+            75% { transform: translateX(-10px); }
+        }
+
+        /* Animasi pecah */
+        .break {
+            animation: break 0.5s forwards;
+        }
+
+        @keyframes break {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.1); }
+            100% { opacity: 0; transform: scale(0); }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 h-screen flex flex-col justify-between">
+
+    <!-- Header -->
+    <div class="flex justify-between items-center p-6">
+        <h1 class="text-xl font-semibold">Transfer</h1>
+        <a href="transfer.html"><i class="fas fa-times text-gray-500 cursor-pointer"></i></a>
+    </div>
+
+    <!-- Recipient Info -->
+    <div class="flex items-center justify-between px-6 mb-4">
+        <div class="flex items-center">
+            <div class="bg-blue-500 rounded-full h-10 w-10 flex justify-center items-center text-white font-bold">SF
+            </div>
+            <div class="ml-3">
+                <p class="text-sm font-bold">Muhamad Aldiyansyah</p>
+                <p class="text-xs text-gray-500">TPR1235687234</p>
+            </div>
+        </div>
+        <a href="transfer.html" class="text-blue-600 text-sm">Ganti</a>
+    </div>
+
+    <!-- Card that contains Amount Section and Notes Section -->
+    <div class="bg-white rounded-lg shadow-lg mx-6 p-6 mb-6">
+        <!-- Amount Input Section -->
+        <div class="mb-2">
+            <input type="text" id="amountInput"
+                class="w-full text-center text-3xl font-bold bg-gray-100 p-5 rounded-xl outline-none focus:ring-2 focus:ring-blue-300"
+                value="Rp " oninput="formatInput()" />
+        </div>
+        <!-- Error message -->
+        <div id="errorMsg" class="text-sm error-text">
+            Maximum input Rp20,000,000
+        </div>
+
+        <!-- Notes Section -->
+        <div class="bg-gray-50 p-3 rounded-lg flex items-center border border-gray-200 input-field">
+            <i class="fas fa-comment-dots text-gray-500"></i>
+            <input type="text" placeholder="Buat burger atau mie?"
+                class="ml-2 bg-transparent outline-none text-sm w-full" id="notesInput"/>
+        </div>
+    </div>
+
+    <!-- Number Pad Section -->
+    <div id="numberPad" class="grid grid-cols-3 gap-3 text-center mx-6 mb-6 number-pad">
+        <!-- First Row -->
+        <button class="bg-gray-200 py-3 rounded-lg text-lg font-semibold" onclick="appendNumber('1')">1</button>
+        <button class="bg-gray-200 py-3 rounded-lg text-lg font-semibold" onclick="appendNumber('2')">2</button>
+        <button class="bg-gray-200 py-3 rounded-lg text-lg font-semibold" onclick="appendNumber('3')">3</button>
+
+        <!-- Second Row -->
+        <button class="bg-gray-200 py-3 rounded-lg text-lg font-semibold" onclick="appendNumber('4')">4</button>
+        <button class="bg-gray-200 py-3 rounded-lg text-lg font-semibold" onclick="appendNumber('5')">5</button>
+        <button class="bg-gray-200 py-3 rounded-lg text-lg font-semibold" onclick="appendNumber('6')">6</button>
+
+        <!-- Third Row -->
+        <button class="bg-gray-200 py-3 rounded-lg text-lg font-semibold" onclick="appendNumber('7')">7</button>
+        <button class="bg-gray-200 py-3 rounded-lg text-lg font-semibold" onclick="appendNumber('8')">8</button>
+        <button class="bg-gray-200 py-3 rounded-lg text-lg font-semibold" onclick="appendNumber('9')">9</button>
+
+        <!-- Fourth Row -->
+        <button class="bg-gray-200 py-3 rounded-lg text-lg font-semibold" onclick="appendNumber('0')">0</button>
+        <button class="bg-gray-200 py-3 rounded-lg text-lg font-semibold" onclick="appendNumber(',')">,</button>
+        <button class="bg-gray-200 py-3 rounded-lg text-lg font-semibold" onclick="deleteNumber()">
+            <i class="fas fa-backspace"></i>
+        </button>
+    </div>
+
+    <!-- Review Transfer Button -->
+    <div class="px-6 mb-6">
+        <button id="reviewTransferButton" class="bg-green-500 text-white py-3 w-full rounded-lg text-lg font-semibold shadow-lg">Review Transfer</button>
+    </div>
+
+    <!-- PIN Confirmation Popup -->
+    <div id="confirmationPopup" class="popup">
+        <div class="popup-content rounded-xl">
+            <div class="popup-header"> 
+                <i class="fas fa-times" id="closePopup"></i>
+                <span class="popup-title">Masukan PIN</span>
+                <i class="fas fa-times" style="visibility: hidden;"></i> <!-- Placeholder untuk menjaga spacing -->
+            </div>
+            
+            <!-- PIN Input Dots -->
+            <div id="pin-display" class="flex justify-center space-x-4 mb-4">
+                <div class="w-6 h-6 bg-gray-300 rounded-full shadow-inner"></div>
+                <div class="w-6 h-6 bg-gray-300 rounded-full shadow-inner"></div>
+                <div class="w-6 h-6 bg-gray-300 rounded-full shadow-inner"></div>
+                <div class="w-6 h-6 bg-gray-300 rounded-full shadow-inner"></div>
+                <div class="w-6 h-6 bg-gray-300 rounded-full shadow-inner"></div>
+                <div class="w-6 h-6 bg-gray-300 rounded-full shadow-inner"></div>
+            </div>
+
+            <!-- Error Message -->
+            <div id="error-message" class="text-red-500 font-bold text-lg mb-6 hidden" style="text-align: center;">Wrong PIN!</div>
+            <div id="block-message" class="text-red-500 font-bold text-lg mb-6 hidden" style="text-align: center;">
+                Anda telah diblokir selama <span id="remaining-time"></span> detik!
+            </div>
+            
+
+            <!-- Number Pad -->
+            <div class="grid grid-cols-3 gap-6 text-3xl font-bold text-center">
+                <button onclick="handleInput(1)" class="bg-white text-gray-800 p-6 rounded-xl shadow-md transition-transform transform focus:outline-none">1</button>
+                <button onclick="handleInput(2)" class="bg-white text-gray-800 p-6 rounded-xl shadow-md transition-transform transform focus:outline-none">2</button>
+                <button onclick="handleInput(3)" class="bg-white text-gray-800 p-6 rounded-xl shadow-md transition-transform transform focus:outline-none">3</button>
+                <button onclick="handleInput(4)" class="bg-white text-gray-800 p-6 rounded-xl shadow-md transition-transform transform focus:outline-none">4</button>
+                <button onclick="handleInput(5)" class="bg-white text-gray-800 p-6 rounded-xl shadow-md transition-transform transform focus:outline-none">5</button>
+                <button onclick="handleInput(6)" class="bg-white text-gray-800 p-6 rounded-xl shadow-md transition-transform transform focus:outline-none">6</button>
+                <button onclick="handleInput(7)" class="bg-white text-gray-800 p-6 rounded-xl shadow-md transition-transform transform focus:outline-none">7</button>
+                <button onclick="handleInput(8)" class="bg-white text-gray-800 p-6 rounded-xl shadow-md transition-transform transform focus:outline-none">8</button>
+                <button onclick="handleInput(9)" class="bg-white text-gray-800 p-6 rounded-xl shadow-md transition-transform transform focus:outline-none">9</button>
+                <div></div> <!-- Empty element for alignment -->
+                <button onclick="handleInput(0)" class="bg-white text-gray-800 p-6 rounded-xl shadow-md transition-transform transform focus:outline-none">0</button>
+                <button onclick="handleDelete()" class="bg-white text-gray-800 p-6 rounded-xl shadow-md transition-transform transform focus:outline-none">
+                    <i class="fas fa-backspace"></i>
+                </button>
+            </div>
+
+            <!-- Forgot PIN -->
+            <div class="mt-12">
+                <button class="text-blue-600 text-lg font-semibold">Forgot PIN?</button>
+            </div>
+            <div class="resize-handle"></div>
+        </div>
+    </div>
+
+    <script>
+
+let pin = [];
+        const pinLength = 6;
+        const correctPin = [1, 2, 3, 4, 5, 6]; // Correct PIN
+        const maxAttempts = 3; // Maximum wrong attempts allowed
+        const blockDuration = 2 * 60 * 1000; // Block duration is 1 minute
+
+        function getBlockedTime() {
+            return localStorage.getItem('blockedUntil');
+        }
+
+        function setBlockedTime(time) {
+            localStorage.setItem('blockedUntil', time);
+        }
+
+        function isBlocked() {
+            const blockedUntil = getBlockedTime();
+            if (blockedUntil) {
+                const currentTime = new Date().getTime();
+                if (currentTime < blockedUntil) {
+                    const blockMessage = document.getElementById('block-message');
+                    blockMessage.classList.remove('hidden'); // Tampilkan pesan pemblokiran
+                    updateBlockedTime(); // Mulai hitungan mundur sisa waktu
+                    return true;
+                } else {
+                    localStorage.removeItem('blockedUntil'); // Bersihkan blokir jika waktu habis
+                    localStorage.removeItem('attempts');
+                }
+            }
+            return false;
+        }
+
+
+        function blockUser() {
+            const blockedUntil = new Date().getTime() + blockDuration;
+            setBlockedTime(blockedUntil);
+
+            const blockMessage = document.getElementById('block-message');
+            blockMessage.classList.remove('hidden'); // Tampilkan pesan pemblokiran
+            updateBlockedTime(); // Mulai hitungan mundur sisa waktu
+        }
+
+
+        function updateBlockedTime() {
+            const remainingTimeElement = document.getElementById('remaining-time');
+            const blockedUntil = getBlockedTime();
+
+            if (blockedUntil) {
+                const interval = setInterval(() => {
+                    const currentTime = new Date().getTime();
+                    const remainingTime = Math.max(0, Math.floor((blockedUntil - currentTime) / 1000));
+
+                    if (remainingTime > 0) {
+                        remainingTimeElement.textContent = remainingTime;
+                    } else {
+                        clearInterval(interval);
+                        document.getElementById('block-message').classList.add('hidden');
+                        localStorage.removeItem('blockedUntil');
+                        localStorage.removeItem('attempts');
+                    }
+                }, 1000); // Update every second
+            }
+        }
+
+
+        // Update the PIN display dots
+        function updatePinDisplay(isError = false) {
+            const pinDisplay = document.getElementById('pin-display').children;
+            for (let i = 0; i < pinLength; i++) {
+                if (i < pin.length) {
+                    if (isError) {
+                        pinDisplay[i].classList.add('bg-red-500');
+                        pinDisplay[i].classList.remove('bg-blue-500');
+                    } else {
+                        pinDisplay[i].classList.add('bg-blue-500');
+                        pinDisplay[i].classList.remove('bg-gray-300', 'bg-red-500');
+                    }
+                } else {
+                    pinDisplay[i].classList.add('bg-gray-300');
+                    pinDisplay[i].classList.remove('bg-blue-500', 'bg-red-500');
+                }
+            }
+        }
+
+        // Handle number input
+        function handleInput(num) {
+            if (isBlocked()) {
+                const blockMessage = document.getElementById('block-message');
+                blockMessage.classList.remove('hidden'); // Show block message
+                return;
+            }
+
+            if (pin.length < pinLength) {
+                pin.push(num);
+                updatePinDisplay();
+            }
+            if (pin.length === pinLength) {
+                if (JSON.stringify(pin) === JSON.stringify(correctPin)) {
+                    setTimeout(() => {
+                        window.location.href = 'struct.html'; // Redirect after PIN is correct
+                    }, 500); // Delay to simulate processing
+                } else {
+                    handleWrongPin();
+                }
+            }
+        }
+
+        // Handle wrong PIN
+        function handleWrongPin() {
+            const attempts = localStorage.getItem('attempts') || 0;
+            const newAttempts = parseInt(attempts) + 1;
+
+            if (newAttempts >= maxAttempts) {
+                blockUser();
+            } else {
+                localStorage.setItem('attempts', newAttempts);
+                showErrorMessage();
+            }
+
+            const pinDisplayContainer = document.getElementById('pin-display');
+            pinDisplayContainer.classList.add('shake');
+            updatePinDisplay(true); // Update display to show error
+
+            // Remove shake class after animation completes
+            setTimeout(() => {
+                pinDisplayContainer.classList.remove('shake');
+                pinDisplayContainer.classList.add('break');
+
+                // Reset break animation after it's done
+                setTimeout(() => {
+                    pinDisplayContainer.classList.remove('break');
+                    resetPin();
+                }, 500);
+            }, 500);
+        }
+
+        // Show error message
+        function showErrorMessage() {
+            const errorMessage = document.getElementById('error-message');
+            errorMessage.classList.remove('hidden');
+            setTimeout(() => {
+                errorMessage.classList.add('hidden');
+            }, 2000);
+        }
+
+        // Reset the PIN input
+        function resetPin() {
+            pin = [];
+            updatePinDisplay();
+        }
+
+        // Handle delete action
+        function handleDelete() {
+            pin.pop();
+            updatePinDisplay();
+        }
+        // Handler Open/Close Popup
+        document.getElementById('reviewTransferButton').addEventListener('click', function () {
+            document.getElementById('confirmationPopup').classList.add('open');
+        });
+
+        document.getElementById('closePopup').addEventListener('click', function () {
+            document.getElementById('confirmationPopup').classList.remove('open');
+        });
+    </script>
+
+
+    <script>
+        // JavaScript
+        let amountInput = document.getElementById('amountInput');
+        let errorMsg = document.getElementById('errorMsg');
+        let numberPad = document.getElementById('numberPad');
+        const MAX_AMOUNT = 20000000; // Rp 20 juta
+        let deleteTimeout;
+
+        function formatInput() {
+            let cursorPosition = amountInput.selectionStart;
+            let valueBeforeFormat = amountInput.value.replace(/[^0-9,]/g, '');
+
+            let amount = parseInt(valueBeforeFormat.replace(/[^\d]/g, ''), 10);
+            
+            // Cek apakah jumlah melebihi Rp 21 juta
+            if (amount > MAX_AMOUNT) {
+                amount = MAX_AMOUNT;
+            }
+
+            amountInput.value = formatNumber('' + amount);
+
+            let valueAfterFormat = amountInput.value.replace(/[^0-9,]/g, '');
+            if (valueBeforeFormat.length > valueAfterFormat.length) {
+                cursorPosition -= valueBeforeFormat.length - valueAfterFormat.length;
+            }
+            amountInput.setSelectionRange(cursorPosition, cursorPosition);
+
+            // Check if the input exceeds Rp 21 million
+            checkAmountLimit();
+        }
+
+        function formatNumber(numStr) {
+            let num = numStr.replace(/[^\d,]/g, '');
+            let formatted = num.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            return 'Rp ' + formatted;
+        }
+
+        function appendNumber(number) {
+            let currentAmount = parseInt(amountInput.value.replace(/[^0-9]/g, ''), 10) || 0;
+            let newAmount = currentAmount * 10 + parseInt(number, 10);  // Simulasi penambahan angka baru
+
+            // Hentikan input jika jumlah melebihi Rp 21 juta
+            if (newAmount > MAX_AMOUNT) {
+                return;
+            }
+
+            amountInput.value = formatNumber('' + newAmount);
+            checkAmountLimit();
+        }
+
+        function deleteNumber() {
+            let currentAmount = amountInput.value.replace(/[^0-9]/g, '');
+            if (currentAmount.length > 1) {
+                amountInput.value = formatNumber(currentAmount.slice(0, -1));
+            } else {
+                amountInput.value = 'Rp ';
+            }
+            checkAmountLimit();
+        }
+        
+
+        function checkAmountLimit() {
+            let amount = parseInt(amountInput.value.replace(/[^0-9]/g, ''), 10);
+
+            if (amount > MAX_AMOUNT) {
+                // Tampilkan pesan error dan ubah border menjadi merah
+                errorMsg.classList.add('show-error');
+                numberPad.classList.add('error-border');
+            } else {
+                // Sembunyikan pesan error dan reset border
+                errorMsg.classList.remove('show-error');
+                numberPad.classList.remove('error-border');
+            }
+        }
+
+
+
+        
+
+    </script>
+
+</body>
+
+</html>

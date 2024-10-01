@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transfer Money UI</title>
+    <script src="../assets/tailwindcss.js"></script>
+    <link rel="stylesheet" href="../assets/fontawesome/css/all.min.css">
+</head>
+<body class="bg-gray-100 p-4">
+    <!-- Back Button its Optional will Visible or Invisible-->
+
+    <!-- Search Bar -->
+    <div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden">
+        <!-- Header with Back Button -->
+        <div class="p-4 flex items-center border-b border-gray-300">
+            <button class="text-gray-600 focus:outline-none mr-4" onclick="location.href='../dashboard.html'">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <div class="flex-1">
+                <div class="flex items-center">
+                    <i class="fas fa-search text-gray-400 mr-2"></i>
+                    <input class="w-full bg-transparent outline-none" type="text" placeholder="Ketik nama atau nomor HP">
+                </div>
+            </div>
+        </div>
+
+        <!-- Saved Accounts List -->
+        <div class="bg-gray-100 px-4 py-2">
+            <h2 class="text-gray-500 mb-2">Hasil dari pencarian:</h2>
+            <!-- User List Item -->
+            <a href="transfer-to.html">
+            <div class="bg-white p-3 rounded-lg mb-2 flex items-center cursor-pointer hover:bg-gray-200">
+                <div class="bg-blue-500 rounded-full w-10 h-10 flex items-center justify-center text-white font-bold mr-4">SF</div>
+                <div>
+                    <p class="text-gray-800 font-medium">Muhamad Aldiyansyah</p>
+                    <p class="text-gray-500 text-sm">TPR1235687234</p>
+                </div>
+            </div>
+            </a>
+            <!-- Example User -->
+            <div class="bg-white p-3 rounded-lg mb-2 flex items-center cursor-pointer hover:bg-gray-200">
+                <div class="bg-gray-700 rounded-full w-10 h-10 flex items-center justify-center text-white font-bold mr-4">RH</div>
+                <div>
+                    <p class="text-gray-800 font-medium">Raihan Hariyanto</p>
+                    <p class="text-gray-500 text-sm">TPR1762352939</p>
+                </div>
+            </div>
+
+            <!-- Repeat similar user blocks as needed -->
+        </div>
+    </div>
+
+    <!-- Additional Script (If needed for functionality) -->
+    <script>
+        // You can add JavaScript to handle user clicks for navigating to the transfer screen
+        document.querySelectorAll('.user-item').forEach(item => {
+            item.addEventListener('click', () => {
+                // Navigate to transfer screen
+                window.location.href = '/transfer-screen';
+            });
+        });
+    </script>
+</body>
+</html>
