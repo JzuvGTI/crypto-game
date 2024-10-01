@@ -30,7 +30,7 @@
 - **Integrated Coin Chart**
 - **Enhanced Dashboard Design**
 - **Added Pin Auth**
-- **Button Send, Deposit and History**
+- **Button Transfer, Deposit and History**
 - **Profile and Portfolio**
 - **Tranfer to other User**
 
@@ -50,6 +50,11 @@
 
 - **Add Game: Mines and Crash**
 - **Now balance is save**
+
+## **Feature V1.5**
+
+- **Add Game: Limbo**
+- **Add Statistic Game**
 
 ## **Technology Stack**
 
